@@ -65,12 +65,20 @@ public abstract class LevelParent extends Observable {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
+		background.requestFocus();
 		return scene;
 	}
 
 	public void startGame() {
 		background.requestFocus();
 		timeline.play();
+	}
+
+	//fixed timeline issue by adding stop game
+	public void stopGame(){
+		if (timeline !=null && timeline.getStatus()==Animation.Status.RUNNING){
+			timeline.stop();//stop game loop
+		}
 	}
 
 	public void goToNextLevel(String levelName) {
