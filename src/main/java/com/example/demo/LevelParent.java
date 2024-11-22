@@ -72,6 +72,7 @@ public abstract class LevelParent extends Observable {
 	public void startGame() {
 		background.requestFocus();
 		timeline.play();
+		System.out.println("Game started: "+ this.getClass().getSimpleName());
 	}
 
 	//fixed timeline issue by adding stop game

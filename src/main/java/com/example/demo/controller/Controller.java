@@ -18,7 +18,7 @@ public class Controller implements Observer {
 	private final Stage stage;
 	private LevelParent currentLevel;
 	private Parent root;
-	private Scene scene;
+	//private Scene scene;
 
 	public Controller(Stage stage) {
 
@@ -28,8 +28,14 @@ public class Controller implements Observer {
 	public void launchGame(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
 
-			stage.show();
-			goToLevel(className);
+			try {
+				goToLevel(className);
+			} catch (Exception e){
+				showErrorAlert(" Error launching game:" + e.getMessage());
+			}
+	}
+
+	private void showErrorAlert(String s) {
 	}
 
 	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,

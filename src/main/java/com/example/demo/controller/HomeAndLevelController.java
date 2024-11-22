@@ -55,7 +55,7 @@ public class HomeAndLevelController {
 
     @FXML
     public void startLevel2(ActionEvent event){
-        System.out.println("Started Level 1");
+        System.out.println("Started Level 2");
         try{
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
@@ -70,7 +70,7 @@ public class HomeAndLevelController {
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("An error occured");
+        alert.setHeaderText("An error occurred");
         alert.setContentText(message);
         alert.showAndWait();
     }
