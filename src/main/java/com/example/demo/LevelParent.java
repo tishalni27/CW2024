@@ -29,8 +29,9 @@ public abstract class LevelParent extends Observable {
 	private final List<ActiveActorDestructible> enemyUnits;
 	private final List<ActiveActorDestructible> userProjectiles;
 	private final List<ActiveActorDestructible> enemyProjectiles;
-	
+
 	private int currentNumberOfEnemies;
+	private boolean isPaused= false;
 	private LevelView levelView;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
@@ -65,6 +66,7 @@ public abstract class LevelParent extends Observable {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
+		initializeUI();
 		background.requestFocus();
 		return scene;
 	}
@@ -82,6 +84,30 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	public void pauseGame(){
+		if(timeline !=null && timeline.getStatus()==Animation.Status.RUNNING){
+			timeline.pause();//pause the timeline
+			System.out.println("Game paused");//debugging statement
+			isPaused = true; //set to true to pause game
+		}
+	}
+	public void resumeGame() {
+		if (timeline != null && timeline.getStatus() == Animation.Status.PAUSED) {
+			System.out.println("Resuming game, Timeline status before play: " + timeline.getStatus());
+			timeline.play(); // Resume the timeline
+			System.out.println("Timeline status after play: " + timeline.getStatus());
+			isPaused = false;
+		}
+	}
+
+	public boolean isGamePaused() {
+		// Return the current state of the game based on isPaused flag
+		return isPaused;
+	}
+	private void initializeUI(){
+		PauseScreen pauseScreen = new PauseScreen(1240,8,this);
+		root.getChildren().add(pauseScreen.getContainer());
+	}
 	public void goToNextLevel(String levelName) {
 		setChanged();
 		notifyObservers(levelName);

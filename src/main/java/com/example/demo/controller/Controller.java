@@ -59,8 +59,7 @@ public class Controller implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		try {
 			goToLevel((String) arg1);
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText(e.getClass().toString());
 			alert.show();
