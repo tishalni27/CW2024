@@ -13,9 +13,9 @@ public class PauseScreen {
     //images
     private static final String PAUSE_BUTTON_NAME ="/com/example/demo/images/pauseBtn.png";
     private static final String PAUSE_SCREEN_IMAGE ="/com/example/demo/images/pauseScreen.png";
-
     private static final String RESUME_BUTTON_NAME="/com/example/demo/images/resumeBtn.png";
     private static final String LEVELS_BUTTON_NAME = "/com/example/demo/images/levelsBtn.png";
+    private static final String QUIT_BUTTON_NAME = "/com/example/demo/images/quitBtn.png";
 
     //pause buttons dimensions
     private static final int BUTTON_HEIGHT=65;
@@ -71,9 +71,10 @@ public class PauseScreen {
 
             ImageView resumeButton = createResumeButton();
             ImageView levelsButton = createLevelsButton();
+            ImageView quitButton = createQuitButton();
             //created the StackPane to overlay pause screen image and buttons
             StackPane stackPane = new StackPane();
-            stackPane.getChildren().addAll(pauseScreenView, resumeButton, levelsButton);
+            stackPane.getChildren().addAll(pauseScreenView, resumeButton, levelsButton,quitButton);
             StackPane.setAlignment(resumeButton,null);
 
             //manually adjusting the position of the buttons
@@ -82,6 +83,10 @@ public class PauseScreen {
 
             levelsButton.setTranslateX(-2);
             levelsButton.setTranslateY(25);
+
+            quitButton.setTranslateX(-2);
+            quitButton.setTranslateY(127);
+
             //store previous scene before replacing
             Stage stage = (Stage) pauseButton.getScene().getWindow();
             previousScene = stage.getScene();//save the previous scene
@@ -139,6 +144,33 @@ public class PauseScreen {
             System.err.println("Failed to load LevelChoose.fxml");
         }
 
+
+
+
+    }
+
+    private ImageView createQuitButton() {
+        Image quitImage = new Image(getClass().getResource(QUIT_BUTTON_NAME).toExternalForm());
+        ImageView quitButton = new ImageView(quitImage);
+        quitButton.setFitHeight(350);
+        quitButton.setFitWidth(350);
+        quitButton.setPreserveRatio(true);
+        // Button action for quitting the application
+        quitButton.setOnMouseClicked(this::quitGame);
+        return quitButton;
+    }
+
+    private void quitGame(MouseEvent event){
+        System.out.println("Quit button clicked");//debug statement
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HomeScreen.fxml"));
+            Scene homeScreen = new Scene(loader.load(), 1300, 750);  // Adjust the scene size as needed
+            Stage stage = (Stage) ((ImageView) event.getSource()).getScene().getWindow();
+            stage.setScene(homeScreen);  // Switch to the level selection screen
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to load LevelChoose.fxml");
+        }
 
     }
 
