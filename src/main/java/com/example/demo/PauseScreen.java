@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +15,9 @@ public class PauseScreen {
     private static final String PAUSE_SCREEN_IMAGE ="/com/example/demo/images/pauseScreen.png";
 
     private static final String RESUME_BUTTON_NAME="/com/example/demo/images/resumeBtn.png";
-    //buttons
+    private static final String LEVELS_BUTTON_NAME = "/com/example/demo/images/levelsBtn.png";
+
+    //pause buttons dimensions
     private static final int BUTTON_HEIGHT=65;
     private static final int BUTTON_WIDTH=65;
     private final HBox container;
@@ -67,14 +70,18 @@ public class PauseScreen {
             pauseScreenView.setFitHeight(800);// set height of pause screen
 
             ImageView resumeButton = createResumeButton();
+            ImageView levelsButton = createLevelsButton();
             //created the StackPane to overlay pause screen image and buttons
             StackPane stackPane = new StackPane();
-            stackPane.getChildren().addAll(pauseScreenView, resumeButton);
+            stackPane.getChildren().addAll(pauseScreenView, resumeButton, levelsButton);
             StackPane.setAlignment(resumeButton,null);
 
             //manually adjusting the position of the buttons
             resumeButton.setTranslateY(2);
             resumeButton.setTranslateY(-98);
+
+            levelsButton.setTranslateX(-2);
+            levelsButton.setTranslateY(25);
             //store previous scene before replacing
             Stage stage = (Stage) pauseButton.getScene().getWindow();
             previousScene = stage.getScene();//save the previous scene
@@ -105,6 +112,33 @@ public class PauseScreen {
         }
         Stage stage = (Stage) ((ImageView) event.getSource()).getScene().getWindow();
         stage.setScene(previousScene);  // Set the previous scene (game screen)
+
+    }
+
+    private ImageView createLevelsButton(){
+        Image levelsImage = new Image(getClass().getResource(LEVELS_BUTTON_NAME).toExternalForm());
+        ImageView levelsButton = new ImageView(levelsImage);
+        levelsButton.setFitHeight(350);
+        levelsButton.setFitWidth(350);
+        levelsButton.setPreserveRatio(true);
+        // Button action for going to level selection screen
+        levelsButton.setOnMouseClicked(this::goToLevelSelection);
+        return levelsButton;
+
+    }
+
+    private void goToLevelSelection(MouseEvent event){
+        System.out.println("Levels button clicked");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/LevelChoose.fxml"));
+            Scene levelSelectScene = new Scene(loader.load(), 1300, 750);  // Adjust the scene size as needed
+            Stage stage = (Stage) ((ImageView) event.getSource()).getScene().getWindow();
+            stage.setScene(levelSelectScene);  // Switch to the level selection screen
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to load LevelChoose.fxml");
+        }
+
 
     }
 
