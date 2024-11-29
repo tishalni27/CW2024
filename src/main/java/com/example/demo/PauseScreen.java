@@ -3,6 +3,7 @@ package com.example.demo;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -12,6 +13,7 @@ public class PauseScreen {
     private static final String PAUSE_BUTTON_NAME ="/com/example/demo/images/pauseBtn.png";
     private static final String PAUSE_SCREEN_IMAGE ="/com/example/demo/images/pauseScreen.png";
 
+    private static final String RESUME_BUTTON_NAME="/com/example/demo/images/resumeBtn.png";
     //buttons
     private static final int BUTTON_HEIGHT=65;
     private static final int BUTTON_WIDTH=65;
@@ -58,27 +60,54 @@ public class PauseScreen {
     }
 
     private void showPauseScreen(ImageView pauseButton) {
-    try {
-        Image pauseScreenImage = new Image(getClass().getResource(PAUSE_SCREEN_IMAGE).toExternalForm());
-        ImageView pauseScreenView = new ImageView(pauseScreenImage);
-        pauseScreenView.setFitWidth(1350);//set the width of the pause screen
-        pauseScreenView.setFitHeight(800);// set height of pause screen
+        try {
+            Image pauseScreenImage = new Image(getClass().getResource(PAUSE_SCREEN_IMAGE).toExternalForm());
+            ImageView pauseScreenView = new ImageView(pauseScreenImage);
+            pauseScreenView.setFitWidth(1350);//set the width of the pause screen
+            pauseScreenView.setFitHeight(800);// set height of pause screen
 
-        //created the StackPane to overlay pause screen image and buttons
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(pauseScreenView);
+            ImageView resumeButton = createResumeButton();
+            //created the StackPane to overlay pause screen image and buttons
+            StackPane stackPane = new StackPane();
+            stackPane.getChildren().addAll(pauseScreenView, resumeButton);
+            StackPane.setAlignment(resumeButton,null);
 
-        //store previous scene before replacing
-        Stage stage = (Stage) pauseButton.getScene().getWindow();
-        previousScene = stage.getScene();//save the previous scene
-        //set the new scene with pause screen overlay
-        Scene pauseScene = new Scene(stackPane, 1350, 800);
-        stage.setScene(pauseScene);
-    } catch (Exception ex){
-        ex.printStackTrace();
-        System.err.println("Failed to load Pause screen");//debug statement
+            //manually adjusting the position of the buttons
+            resumeButton.setTranslateY(2);
+            resumeButton.setTranslateY(-98);
+            //store previous scene before replacing
+            Stage stage = (Stage) pauseButton.getScene().getWindow();
+            previousScene = stage.getScene();//save the previous scene
+            //set the new scene with pause screen overlay
+            Scene pauseScene = new Scene(stackPane, 1350, 800);
+            stage.setScene(pauseScene);
+         }   catch (Exception ex){
+                ex.printStackTrace();
+                System.err.println("Failed to load Pause screen");//debug statement
+             }
     }
+
+    //RESUME
+    private ImageView createResumeButton(){
+        Image resumeImage = new Image(getClass().getResource(RESUME_BUTTON_NAME).toExternalForm());
+        ImageView resumeButton = new ImageView(resumeImage);
+        resumeButton.setFitHeight(350);
+        resumeButton.setFitWidth(350);
+        resumeButton.setPreserveRatio(true);
+        resumeButton.setOnMouseClicked(this::resumeGame);
+        return resumeButton;
     }
+
+    private void resumeGame(MouseEvent event){
+        System.out.println("Resume button clicked");//debug
+        if(levelParent !=null){
+            levelParent.resumeGame();
+        }
+        Stage stage = (Stage) ((ImageView) event.getSource()).getScene().getWindow();
+        stage.setScene(previousScene);  // Set the previous scene (game screen)
+
+    }
+
 
 
     public HBox getContainer(){
