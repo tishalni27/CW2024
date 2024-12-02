@@ -68,6 +68,28 @@ public class HomeAndLevelController {
 
     }
 
+    @FXML
+    public void exitGame(ActionEvent event){
+        //Display confirmation before exiting game
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Game");
+        alert.setHeaderText("You are about to exit the game");
+        alert.setContentText("Are you sure you want to quit?");
+
+        //make sure alert is on top of game screen
+        Stage gameStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        alert.initOwner(gameStage);  // Set the alert's owner to the game stage
+
+        // Use a non-blocking dialog to prevent issues with modality
+        alert.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                // Close the application
+                gameStage.close();
+                System.out.println("Game exited successfully.");
+            }
+        });
+    }
+
 
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

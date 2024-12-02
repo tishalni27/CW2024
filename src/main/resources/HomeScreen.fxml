@@ -29,7 +29,7 @@
             <Font name="System Bold Italic" size="30.0" />
          </font>
       </Button>
-      <Button layoutX="1359.0" layoutY="31.0" mnemonicParsing="false"  prefHeight="86.0" prefWidth="82.0" style="-fx-background-color: transparent;" />
+      <Button layoutX="1359.0" layoutY="31.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="86.0" prefWidth="82.0" style="-fx-background-color: transparent;" />
 
    </children>
 </AnchorPane>
