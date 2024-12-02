@@ -93,6 +93,7 @@ public class PauseScreen {
             //set the new scene with pause screen overlay
             Scene pauseScene = new Scene(stackPane, 1350, 800);
             stage.setScene(pauseScene);
+            stage.setFullScreen(true);
          }   catch (Exception ex){
                 ex.printStackTrace();
                 System.err.println("Failed to load Pause screen");//debug statement

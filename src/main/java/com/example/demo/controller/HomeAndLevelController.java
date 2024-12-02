@@ -33,6 +33,7 @@ public class HomeAndLevelController {
            Scene scene = new Scene(root);
            stage.setScene(scene);
            stage.show();
+           stage.setFullScreen(true);
            System.out.println("Game Started");
        } catch (IOException e){
            showErrorAlert("Error loading LevelChoose.fxml" + e.getMessage());
@@ -66,6 +67,7 @@ public class HomeAndLevelController {
         }
 
     }
+
 
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
