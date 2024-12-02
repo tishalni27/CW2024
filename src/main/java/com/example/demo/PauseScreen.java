@@ -64,34 +64,31 @@ public class PauseScreen {
 
     private void showPauseScreen(ImageView pauseButton) {
         try {
+            Stage stage =(Stage)pauseButton.getScene().getWindow();
+            double stageWidth = stage.getWidth();
+            double stageHeight = stage.getHeight();
             Image pauseScreenImage = new Image(getClass().getResource(PAUSE_SCREEN_IMAGE).toExternalForm());
             ImageView pauseScreenView = new ImageView(pauseScreenImage);
-            pauseScreenView.setFitWidth(1350);//set the width of the pause screen
-            pauseScreenView.setFitHeight(800);// set height of pause screen
+            pauseScreenView.setPreserveRatio(true);
+            pauseScreenView.setFitWidth(stageWidth);//set the width of the pause screen
+            pauseScreenView.setFitHeight(stageHeight);// set height of pause screen
 
-            ImageView resumeButton = createResumeButton();
-            ImageView levelsButton = createLevelsButton();
-            ImageView quitButton = createQuitButton();
+            ImageView resumeButton = createResumeButton(stageWidth,stageHeight);
+            ImageView levelsButton = createLevelsButton(stageWidth,stageHeight);
+            ImageView quitButton = createQuitButton(stageWidth,stageHeight);
             //created the StackPane to overlay pause screen image and buttons
             StackPane stackPane = new StackPane();
             stackPane.getChildren().addAll(pauseScreenView, resumeButton, levelsButton,quitButton);
-            StackPane.setAlignment(resumeButton,null);
+            StackPane.setAlignment(resumeButton, javafx.geometry.Pos.CENTER);  // Center the resume button
+            StackPane.setAlignment(levelsButton, javafx.geometry.Pos.CENTER_LEFT); // Align levels button to the left
+            StackPane.setAlignment(quitButton, javafx.geometry.Pos.CENTER_RIGHT); // Align quit button to the right
 
-            //manually adjusting the position of the buttons
-            resumeButton.setTranslateY(2);
-            resumeButton.setTranslateY(-98);
 
-            levelsButton.setTranslateX(-2);
-            levelsButton.setTranslateY(25);
 
-            quitButton.setTranslateX(-2);
-            quitButton.setTranslateY(127);
 
-            //store previous scene before replacing
-            Stage stage = (Stage) pauseButton.getScene().getWindow();
             previousScene = stage.getScene();//save the previous scene
             //set the new scene with pause screen overlay
-            Scene pauseScene = new Scene(stackPane, 1350, 800);
+            Scene pauseScene = new Scene(stackPane,stageWidth,stageHeight);
             stage.setScene(pauseScene);
             stage.setFullScreen(true);
          }   catch (Exception ex){
@@ -101,13 +98,17 @@ public class PauseScreen {
     }
 
     //RESUME
-    private ImageView createResumeButton(){
+    private ImageView createResumeButton(double stageWidth, double stageHeight){
         Image resumeImage = new Image(getClass().getResource(RESUME_BUTTON_NAME).toExternalForm());
         ImageView resumeButton = new ImageView(resumeImage);
-        resumeButton.setFitHeight(350);
-        resumeButton.setFitWidth(350);
+        // Adjust button size based on stage width and height
+        resumeButton.setFitHeight(stageHeight * 0.8);
+        resumeButton.setFitWidth(stageWidth * 0.25);
         resumeButton.setPreserveRatio(true);
         resumeButton.setOnMouseClicked(this::resumeGame);
+        // Positioning relative to stage size (adjust X and Y to fit)
+        resumeButton.setTranslateX(stageWidth * 0.13 - resumeButton.getFitWidth() / 2);  // Center horizontally
+        resumeButton.setTranslateY(stageHeight * -0.10);  // Position near the middle vertically
         return resumeButton;
     }
 
@@ -121,14 +122,19 @@ public class PauseScreen {
 
     }
 
-    private ImageView createLevelsButton(){
+    private ImageView createLevelsButton(double stageWidth, double stageHeight){
         Image levelsImage = new Image(getClass().getResource(LEVELS_BUTTON_NAME).toExternalForm());
         ImageView levelsButton = new ImageView(levelsImage);
-        levelsButton.setFitHeight(350);
-        levelsButton.setFitWidth(350);
+        // Adjust button size based on stage width and height
+        levelsButton.setFitHeight(stageHeight * 0.8);
+        levelsButton.setFitWidth(stageWidth * 0.25);
         levelsButton.setPreserveRatio(true);
         // Button action for going to level selection screen
         levelsButton.setOnMouseClicked(this::goToLevelSelection);
+        // Positioning relative to stage size (adjusting X and Y to fit)
+        levelsButton.setTranslateX(stageWidth * 0.5 - levelsButton.getFitWidth() / 2);  // Center horizontally
+        levelsButton.setTranslateY(stageHeight * 0.05); // Position below resume button
+
         return levelsButton;
 
     }
@@ -150,14 +156,18 @@ public class PauseScreen {
 
     }
 
-    private ImageView createQuitButton() {
+    private ImageView createQuitButton(double stageWidth, double stageHeight) {
         Image quitImage = new Image(getClass().getResource(QUIT_BUTTON_NAME).toExternalForm());
         ImageView quitButton = new ImageView(quitImage);
-        quitButton.setFitHeight(350);
-        quitButton.setFitWidth(350);
+        // Adjust button size based on stage width and height
+        quitButton.setFitHeight(stageHeight * 0.8);
+        quitButton.setFitWidth(stageWidth * 0.25);
         quitButton.setPreserveRatio(true);
         // Button action for quitting the application
         quitButton.setOnMouseClicked(this::quitGame);
+        // Positioning relative to stage size (adjust X and Y to fit)
+        quitButton.setTranslateX(stageWidth * 0.07 - quitButton.getFitWidth() / 0.565);  // Center horizontally
+        quitButton.setTranslateY(stageHeight * 0.17);//below levels button
         return quitButton;
     }
 

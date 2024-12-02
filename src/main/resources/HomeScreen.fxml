@@ -7,11 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.HomeAndLevelController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.HomeAndLevelController">
    <children>
-      <ImageView fitHeight="750.0" fitWidth="1300.0" layoutX="0" layoutY="0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1148.0" fitWidth="2092.0" layoutX="-177.0" layoutY="-129.0" pickOnBounds="true">
          <image>
-            <Image url="@com/example/demo/images/homescreen_bg.png" />
+            <Image url="@com/example/demo/images/space5.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="86.0" fitWidth="92.0" layoutX="1357.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@com/example/demo/images/exitBtn.png" />
          </image>
       </ImageView>
       <Label layoutX="182.0" layoutY="31.0">
@@ -19,11 +24,12 @@
             <Font size="43.0" />
          </font>
       </Label>
-      <Button layoutX="320.0" layoutY="350.0" mnemonicParsing="false" onAction="#chooseLevel" prefHeight="100.0" prefWidth="200.0" text="PLAY">
+      <Button layoutX="350.0" layoutY="475.0" mnemonicParsing="false" onAction="#chooseLevel" prefHeight="100.0" prefWidth="200.0" text="PLAY">
          <font>
             <Font name="System Bold Italic" size="30.0" />
          </font>
       </Button>
+      <Button layoutX="1359.0" layoutY="31.0" mnemonicParsing="false"  prefHeight="86.0" prefWidth="82.0" style="-fx-background-color: transparent;" />
 
    </children>
 </AnchorPane>
