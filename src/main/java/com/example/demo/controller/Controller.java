@@ -27,7 +27,8 @@ public class Controller implements Observer {
 
 	public void launchGame(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
-
+			stage.setFullScreen(true);
+			stage.show();
 			try {
 				goToLevel(className);
 			} catch (Exception e){
@@ -52,6 +53,7 @@ public class Controller implements Observer {
 			Scene scene = currentLevel.initializeScene();
 			stage.setScene(scene);
 			currentLevel.startGame();
+			stage.setFullScreen(true);
 
 	}
 
