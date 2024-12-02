@@ -50,7 +50,7 @@ public class Controller implements Observer {
 			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
 			currentLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
 			currentLevel.addObserver(this);
-			Scene scene = currentLevel.initializeScene();
+			Scene scene = currentLevel.initializeScene(stage.getWidth(), stage.getHeight());
 			stage.setScene(scene);
 			currentLevel.startGame();
 			stage.setFullScreen(true);

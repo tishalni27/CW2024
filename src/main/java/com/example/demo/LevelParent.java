@@ -62,11 +62,11 @@ public abstract class LevelParent extends Observable {
 
 	protected abstract LevelView instantiateLevelView();
 
-	public Scene initializeScene() {
+	public Scene initializeScene(double stageWidth,double stageHeight) {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
-		initializeUI();
+		initializeUI(stageWidth, stageHeight);
 		background.requestFocus();
 		return scene;
 	}
@@ -104,8 +104,8 @@ public abstract class LevelParent extends Observable {
 		// Return the current state of the game based on isPaused flag
 		return isPaused;
 	}
-	private void initializeUI(){
-		PauseScreen pauseScreen = new PauseScreen(1240,8,this);
+	private void initializeUI(double stageWidth, double stageHeight){
+		PauseScreen pauseScreen = new PauseScreen(1240, 8, stageWidth, stageHeight, this);
 		root.getChildren().add(pauseScreen.getContainer());
 	}
 	public void goToNextLevel(String levelName) {

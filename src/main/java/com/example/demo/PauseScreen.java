@@ -18,37 +18,47 @@ public class PauseScreen {
     private static final String QUIT_BUTTON_NAME = "/com/example/demo/images/quitBtn.png";
 
     //pause buttons dimensions
-    private static final int BUTTON_HEIGHT=65;
-    private static final int BUTTON_WIDTH=65;
+    //private static final int BUTTON_HEIGHT=65;
+    //private static final int BUTTON_WIDTH=65;
     private final HBox container;
     private final double containerXPosition;
     private final double containerYPosition;
     private final LevelParent levelParent;// reference to parent level when controlling pause and resume
     private Scene previousScene; //store previous scene to return when resuming game
-    public PauseScreen(double xPosition, double yPosition, LevelParent levelParent){
+    public PauseScreen(double xPosition, double yPosition, double stageWidth, double stageHeight, LevelParent levelParent) {
         this.containerXPosition = xPosition;
         this.containerYPosition = yPosition;
         this.levelParent = levelParent;
         this.container = new HBox();
-        initializeContainer();
-
+        initializeContainer(stageWidth, stageHeight);
     }
 
-    private void initializeContainer(){
+    private void initializeContainer(double stageWidth, double stageHeight) {
+        // Set the container's position
         container.setLayoutX(containerXPosition);
         container.setLayoutY(containerYPosition);
-        //create the pause button and add to the container
-        ImageView pauseButton = createPauseButton();
-        container.getChildren().add(pauseButton);//add pausebutton to container
+
+        // Create the pause button with dynamic size and position
+        ImageView pauseButton = createPauseButton(stageWidth, stageHeight);
+
+        // Add the pause button to the container
+        container.getChildren().add(pauseButton);
     }
 
     //Pause Game
-    private ImageView createPauseButton(){
+    private ImageView createPauseButton(double stageWidth, double stageHeight){
         Image pauseImage = new Image(getClass().getResource(PAUSE_BUTTON_NAME).toExternalForm());
         ImageView pauseButton = new ImageView(pauseImage);
-        pauseButton.setFitHeight(BUTTON_HEIGHT);
-        pauseButton.setFitWidth(BUTTON_WIDTH);
+        //Adjust pause button based on stage dimensions
+        pauseButton.setFitHeight(stageWidth * 0.08);
+        pauseButton.setFitWidth(stageHeight* 0.08);
+
         pauseButton.setPreserveRatio(true);
+
+        //position to top left
+        pauseButton.setTranslateX(stageWidth * 0.12);
+        pauseButton.setTranslateY(stageHeight * 0.01);
+
         pauseButton.setOnMouseClicked(e->{
             System.out.println("Pause button clicked");//debug statement
             if(levelParent!=null) {
@@ -175,9 +185,10 @@ public class PauseScreen {
         System.out.println("Quit button clicked");//debug statement
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HomeScreen.fxml"));
-            Scene homeScreen = new Scene(loader.load(), 1300, 750);  // Adjust the scene size as needed
+            Scene homeScreen = new Scene(loader.load(), 1300, 750);
             Stage stage = (Stage) ((ImageView) event.getSource()).getScene().getWindow();
             stage.setScene(homeScreen);  // Switch to the level selection screen
+            stage.setFullScreen(true);
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Failed to load LevelChoose.fxml");
