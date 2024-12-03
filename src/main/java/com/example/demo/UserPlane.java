@@ -65,4 +65,17 @@ public class UserPlane extends FighterPlane {
 		numberOfKills++;
 	}
 
+	public void reset(){
+		// Reset position
+		this.setTranslateX(0); // Reset horizontal translation
+		this.setTranslateY(0); // Reset vertical translation
+		this.setLayoutX(INITIAL_X_POSITION); // Set to initial X position
+		this.setLayoutY(INITIAL_Y_POSITION); // Set to initial Y position
+
+		//reset velocity multiplier
+		this.velocityMultiplier = 0;
+		this.numberOfKills =0;
+
+	}
+
 }

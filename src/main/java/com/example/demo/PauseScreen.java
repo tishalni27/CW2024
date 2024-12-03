@@ -16,6 +16,7 @@ public class PauseScreen {
     private static final String RESUME_BUTTON_NAME="/com/example/demo/images/resumeBtn.png";
     private static final String LEVELS_BUTTON_NAME = "/com/example/demo/images/levelsBtn.png";
     private static final String QUIT_BUTTON_NAME = "/com/example/demo/images/quitBtn.png";
+    private static final String RETRY_BUTTON_NAME = "/com/example/demo/images/retryBtn.png";
 
     //pause buttons dimensions
     //private static final int BUTTON_HEIGHT=65;
@@ -78,6 +79,8 @@ public class PauseScreen {
             double stageWidth = stage.getWidth();
             double stageHeight = stage.getHeight();
             Image pauseScreenImage = new Image(getClass().getResource(PAUSE_SCREEN_IMAGE).toExternalForm());
+
+            //create imageview for pause screen
             ImageView pauseScreenView = new ImageView(pauseScreenImage);
             pauseScreenView.setPreserveRatio(true);
             pauseScreenView.setFitWidth(stageWidth);//set the width of the pause screen
@@ -86,21 +89,24 @@ public class PauseScreen {
             ImageView resumeButton = createResumeButton(stageWidth,stageHeight);
             ImageView levelsButton = createLevelsButton(stageWidth,stageHeight);
             ImageView quitButton = createQuitButton(stageWidth,stageHeight);
+            ImageView retryButton = createRetryButton(stageWidth,stageHeight);
             //created the StackPane to overlay pause screen image and buttons
             StackPane stackPane = new StackPane();
-            stackPane.getChildren().addAll(pauseScreenView, resumeButton, levelsButton,quitButton);
+            stackPane.getChildren().addAll(pauseScreenView, resumeButton, levelsButton,quitButton,retryButton);
+
+           //set alignment position for all the buttons in pause screen
             StackPane.setAlignment(resumeButton, javafx.geometry.Pos.CENTER);  // Center the resume button
             StackPane.setAlignment(levelsButton, javafx.geometry.Pos.CENTER_LEFT); // Align levels button to the left
             StackPane.setAlignment(quitButton, javafx.geometry.Pos.CENTER_RIGHT); // Align quit button to the right
-
-
-
+            StackPane.setAlignment(retryButton, javafx.geometry.Pos.BOTTOM_CENTER);
 
             previousScene = stage.getScene();//save the previous scene
             //set the new scene with pause screen overlay
             Scene pauseScene = new Scene(stackPane,stageWidth,stageHeight);
             stage.setScene(pauseScene);
             stage.setFullScreen(true);
+
+
          }   catch (Exception ex){
                 ex.printStackTrace();
                 System.err.println("Failed to load Pause screen");//debug statement
@@ -194,6 +200,37 @@ public class PauseScreen {
             System.err.println("Failed to load LevelChoose.fxml");
         }
 
+    }
+
+    private ImageView createRetryButton(double stageWidth, double stageHeight) {
+        Image retryImage = new Image(getClass().getResource(RETRY_BUTTON_NAME).toExternalForm());
+        ImageView retryButton = new ImageView(retryImage);
+
+        // Adjust button size based on stage width and height
+        retryButton.setFitHeight(stageHeight * 0.8);  // Button height 10% of screen height
+        retryButton.setFitWidth(stageWidth * 0.25);    // Button width 20% of screen width
+        retryButton.setPreserveRatio(true);
+
+        // Button action for retrying the game (e.g., restarting the level)
+        retryButton.setOnMouseClicked(this::retryGame);
+
+        // Positioning relative to stage size (adjust X and Y to fit)
+        retryButton.setTranslateX(stageWidth * 0.5 - retryButton.getFitWidth() / 0.504);  // Center horizontally
+        retryButton.setTranslateY(stageHeight * 0.015); // Position below levels and quit buttons
+
+        return retryButton;
+    }
+
+    private void retryGame(MouseEvent event){
+        System.out.println("Retry button clicked");//debugging statement
+
+        /*if(levelParent !=null){
+            levelParent.retryGame();
+        }
+
+        Stage stage = (Stage) ((ImageView) event.getSource()).getScene().getWindow();
+        stage.setScene(previousScene);
+        stage.setFullScreen(true);*/
     }
 
 
