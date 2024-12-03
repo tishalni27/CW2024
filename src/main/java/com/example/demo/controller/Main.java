@@ -8,15 +8,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Main extends Application {
 //Main class
-	private static final int SCREEN_WIDTH = 1200;
-	private static final int SCREEN_HEIGHT = 750;
-	private static final String TITLE = "Sky ";
-	//private Controller myController;
+
 
 	@Override
 	public void start(Stage stage)  {
@@ -25,11 +24,25 @@ public class Main extends Application {
 			stage.initStyle(StageStyle.UNDECORATED);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/HomeScreen.fxml"));
 			Parent root = loader.load();
-			Scene scene = new Scene (root, SCREEN_WIDTH, SCREEN_HEIGHT);
-			stage.setScene(scene);
+			Scene scene = new Scene (root);
+			Screen screen = Screen.getPrimary();
+			double screenWidth =screen.getVisualBounds().getWidth();
+			double screenHeight = screen.getVisualBounds().getHeight();
 
-			stage.setTitle(TITLE);
+			stage.setWidth(screenWidth);
+			stage.setHeight(screenHeight);
+
+			//set scene to stage
+			stage.setScene(scene);
 			stage.setFullScreen(true);
+
+			if(root instanceof AnchorPane){
+				AnchorPane anchorPane=(AnchorPane) root;
+				// Bind AnchorPane's width and height properties to scene's width and height
+				anchorPane.prefWidthProperty().bind(scene.widthProperty());
+				anchorPane.prefHeightProperty().bind(scene.heightProperty());
+			}
+			stage.setFullScreenExitHint("");
 			stage.show();
 		} catch(IOException e){
 			e.printStackTrace();

@@ -25,6 +25,14 @@ public class LevelOne extends LevelParent {
 	@Override
 	protected void initializeFriendlyUnits() {
 		getRoot().getChildren().add(getUser());
+		killCountText.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;");
+
+		killCountText.setLayoutX(650); // Adjust X position to avoid overlap
+		killCountText.setLayoutY(30); // Adjust Y position
+		killCountText.toFront(); // Ensure it's rendered above other elements
+
+		// Make sure the killCountText is added to the root
+		getRoot().getChildren().add(killCountText);
 	}
 
 	@Override
