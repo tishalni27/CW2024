@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public abstract class LevelParent extends Observable {
@@ -33,6 +34,8 @@ public abstract class LevelParent extends Observable {
 	private int currentNumberOfEnemies;
 	private boolean isPaused= false;
 	private LevelView levelView;
+	protected Text killCountText;
+	private int previousKillCount = 0;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -52,6 +55,7 @@ public abstract class LevelParent extends Observable {
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
 		friendlyUnits.add(user);
+		this.killCountText = new Text(20,40,"Kill Count : 0");
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -104,6 +108,24 @@ public abstract class LevelParent extends Observable {
 		// Return the current state of the game based on isPaused flag
 		return isPaused;
 	}
+
+	public void retryGame() {
+		stopGame();
+		root.getChildren().clear();
+		friendlyUnits.clear();
+		enemyUnits.clear();
+		userProjectiles.clear();
+		enemyProjectiles.clear();
+
+		user.reset();
+		levelView.reset(); // Reset LevelView elements
+
+		initializeScene(screenWidth, screenHeight);
+		startGame();
+
+		System.out.println("Game restarted: " + this.getClass().getSimpleName());
+	}
+
 	private void initializeUI(double stageWidth, double stageHeight){
 		PauseScreen pauseScreen = new PauseScreen(1240, 8, stageWidth, stageHeight, this);
 		root.getChildren().add(pauseScreen.getContainer());
@@ -233,6 +255,10 @@ public abstract class LevelParent extends Observable {
 	private void updateKillCount() {
 		for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
 			user.incrementKillCount();
+		}
+		if (user.getNumberOfKills() !=previousKillCount){
+			killCountText.setText("Kill Count :  " + user.getNumberOfKills());
+			previousKillCount = user.getNumberOfKills();
 		}
 	}
 

@@ -42,7 +42,13 @@ public class HeartDisplay {
 		if (!container.getChildren().isEmpty())
 			container.getChildren().remove(INDEX_OF_FIRST_ITEM);
 	}
-	
+	public void reset() {
+		// Clear all hearts from the container
+		container.getChildren().clear();
+
+		// Reinitialize the hearts
+		initializeHearts();
+	}
 	public HBox getContainer() {
 		return container;
 	}
