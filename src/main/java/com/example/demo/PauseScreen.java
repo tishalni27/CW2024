@@ -78,6 +78,18 @@ public class PauseScreen {
             Stage stage =(Stage)pauseButton.getScene().getWindow();
             double stageWidth = stage.getWidth();
             double stageHeight = stage.getHeight();
+
+
+            //add black background to cover white spaces
+            double rectangleMargin = 20; // Margin around the pause screen
+            javafx.scene.shape.Rectangle background = new javafx.scene.shape.Rectangle(
+                    stageWidth + rectangleMargin * 2,
+                    stageHeight + rectangleMargin * 2
+            );
+            background.setFill(javafx.scene.paint.Color.BLACK);
+
+
+            //show pause screen image
             Image pauseScreenImage = new Image(getClass().getResource(PAUSE_SCREEN_IMAGE).toExternalForm());
 
             //create imageview for pause screen
@@ -92,7 +104,7 @@ public class PauseScreen {
             ImageView retryButton = createRetryButton(stageWidth,stageHeight);
             //created the StackPane to overlay pause screen image and buttons
             StackPane stackPane = new StackPane();
-            stackPane.getChildren().addAll(pauseScreenView, resumeButton, levelsButton,quitButton,retryButton);
+            stackPane.getChildren().addAll(background,pauseScreenView, resumeButton, levelsButton,quitButton,retryButton);
 
            //set alignment position for all the buttons in pause screen
             StackPane.setAlignment(resumeButton, javafx.geometry.Pos.CENTER);  // Center the resume button
@@ -135,7 +147,7 @@ public class PauseScreen {
         }
         Stage stage = (Stage) ((ImageView) event.getSource()).getScene().getWindow();
         stage.setScene(previousScene);  // Set the previous scene (game screen)
-
+        stage.setFullScreen(true);
     }
 
     private ImageView createLevelsButton(double stageWidth, double stageHeight){

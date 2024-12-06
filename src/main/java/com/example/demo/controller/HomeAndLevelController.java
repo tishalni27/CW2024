@@ -90,6 +90,23 @@ public class HomeAndLevelController {
         });
     }
 
+        @FXML
+        public void homeScreen(ActionEvent event){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HomeScreen.fxml"));
+            Parent root = loader.load();
+
+            //get current stage and set new stage
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);  // Create a new scene with the loaded FXML
+            stage.setScene(scene);  // Set the scene for the current stage
+            stage.show();
+            stage.setFullScreen(true);
+        }catch (IOException e){
+            showErrorAlert("Error loading HomeScreen:" + e.getMessage());
+            //debugging statement
+        }
+        }
 
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
