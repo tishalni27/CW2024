@@ -47,7 +47,7 @@ public class HomeAndLevelController {
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
             myController = new Controller (stage);
-            myController.launchGame("com.example.demo.LevelOne");
+            myController.launchGame("com.example.demo.Levels.LevelOne");
         } catch (Exception e){
             showErrorAlert("Error starting game:" + e.getMessage());
         }
@@ -61,7 +61,7 @@ public class HomeAndLevelController {
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
             myController = new Controller (stage);
-            myController.launchGame("com.example.demo.LevelTwo");
+            myController.launchGame("com.example.demo.Levels.LevelTwo");
         } catch (Exception e){
             showErrorAlert("Error starting game:" + e.getMessage());
         }

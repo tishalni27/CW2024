@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.Level1;
+
+import com.example.demo.CommonElements.FighterPlane;
 
 public class EnemyPlane extends FighterPlane {
 

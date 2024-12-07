@@ -1,4 +1,7 @@
-package com.example.demo;
+package com.example.demo.Level3;
+
+import com.example.demo.CommonElements.FighterPlane;
+import com.example.demo.Level1.ActiveActorDestructible;
 
 import java.util.*;
 

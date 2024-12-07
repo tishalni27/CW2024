@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.Screen;
 
+import com.example.demo.Levels.LevelParent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

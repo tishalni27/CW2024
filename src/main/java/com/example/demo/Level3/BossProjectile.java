@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.Level3;
+
+import com.example.demo.CommonElements.Projectile;
 
 public class BossProjectile extends Projectile {
 	
