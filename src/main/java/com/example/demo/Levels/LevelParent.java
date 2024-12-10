@@ -121,7 +121,7 @@ public abstract class LevelParent extends Observable {
 		return isPaused;
 	}
 
-	public void retryGame() {
+	/*public void retryGame() {
 		stopGame();
 		root.getChildren().clear();
 		friendlyUnits.clear();
@@ -136,7 +136,7 @@ public abstract class LevelParent extends Observable {
 		startGame();
 
 		System.out.println("Game restarted: " + this.getClass().getSimpleName());
-	}
+	}*/
 
 	private void initializeUI(double stageWidth, double stageHeight){
 		PauseScreen pauseScreen = new PauseScreen(1240, 8, stageWidth, stageHeight, this);
@@ -160,6 +160,8 @@ public abstract class LevelParent extends Observable {
 		updateKillCount();
 		updateLevelView();
 		checkIfGameOver();
+
+		updateUserShieldPosition();
 	}
 
 	private void initializeTimeline() {
@@ -258,7 +260,13 @@ public abstract class LevelParent extends Observable {
 	private void handleCollisions(List<ActiveActorDestructible> actors1,
 			List<ActiveActorDestructible> actors2) {
 		for (ActiveActorDestructible actor : actors2) {
+			if (actor instanceof UserPlane && ((UserPlane) actor).isShieldAllowed()) {
+				continue;  // Skip the collision check for the user plane if the shield is active
+			}
 			for (ActiveActorDestructible otherActor : actors1) {
+				if (otherActor instanceof UserPlane && ((UserPlane) otherActor).isShieldAllowed()) {
+					continue;  // Skip the collision check if the shield is active
+				}
 				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
 					actor.takeDamage();
 					otherActor.takeDamage();
@@ -319,6 +327,16 @@ public abstract class LevelParent extends Observable {
 		root.getChildren().add(retryButton);
 	}
 
+	protected void updateUserShieldPosition() {
+		if (user != null) {
+			user.updateShieldPosition();
+			//System.out.println("UserShield position updated in LevelParent.");
+		} else {
+			System.err.println("Error: User is null in LevelParent.");
+		}
+	}
+
+
 	protected UserPlane getUser() {
 		return user;
 	}
@@ -351,5 +369,6 @@ public abstract class LevelParent extends Observable {
 	private void updateNumberOfEnemies() {
 		currentNumberOfEnemies = enemyUnits.size();
 	}
+
 
 }

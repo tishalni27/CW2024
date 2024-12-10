@@ -30,7 +30,7 @@
             <Font size="34.0" />
          </font>
       </Button>
-      <Button layoutX="973.0" layoutY="375.0" mnemonicParsing="false" prefHeight="153.0" prefWidth="178.0" text="3">
+      <Button layoutX="973.0" layoutY="375.0" mnemonicParsing="false" onAction="#startLevel3" prefHeight="153.0" prefWidth="178.0" text="3">
          <font>
             <Font size="34.0" />
          </font>

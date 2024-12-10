@@ -69,6 +69,21 @@ public class HomeAndLevelController {
     }
 
     @FXML
+    public void startLevel3(ActionEvent event){
+        System.out.println("Started Level 3");
+        try{
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+            myController = new Controller (stage);
+            myController.launchGame("com.example.demo.Levels.LevelThree");
+        } catch (Exception e){
+            showErrorAlert("Error starting game:" + e.getMessage());
+        }
+
+    }
+
+
+    @FXML
     public void exitGame(ActionEvent event){
         //Display confirmation before exiting game
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

@@ -1,13 +1,14 @@
 package com.example.demo.Levels;
 
-import com.example.demo.Level3.Boss;
-import com.example.demo.Level3.LevelViewLevelTwo;
+import com.example.demo.Level2.Boss;
+import com.example.demo.Level2.LevelViewLevelTwo;
 import com.example.demo.LevelView;
 import com.example.demo.controller.Controller;
 
 public class LevelTwo extends LevelParent {
 
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
+	private static final String NEXT_LEVEL = "com.example.demo.Levels.LevelThree";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private final Boss boss;
 	private LevelViewLevelTwo levelView;
@@ -28,7 +29,7 @@ public class LevelTwo extends LevelParent {
 			loseGame();
 		}
 		else if (boss.isDestroyed()) {
-			winGame();
+			goToNextLevel(NEXT_LEVEL);
 		}
 	}
 
