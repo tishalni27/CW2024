@@ -10,10 +10,12 @@ import com.example.demo.LevelView;
 import com.example.demo.Screen.PauseScreen;
 import com.example.demo.User.UserPlane;
 import com.example.demo.User.UserProjectile;
+import com.example.demo.controller.Controller;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.text.Text;
@@ -41,10 +43,12 @@ public abstract class LevelParent extends Observable {
 	private int currentNumberOfEnemies;
 	private boolean isPaused= false;
 	private LevelView levelView;
+
+	private Controller controller;
 	protected Text killCountText;
 	private int previousKillCount = 0;
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, Controller controller) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
@@ -53,6 +57,7 @@ public abstract class LevelParent extends Observable {
 		this.enemyUnits = new ArrayList<>();
 		this.userProjectiles = new ArrayList<>();
 		this.enemyProjectiles = new ArrayList<>();
+		this.controller = controller;
 
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -297,6 +302,21 @@ public abstract class LevelParent extends Observable {
 	protected void loseGame() {
 		timeline.stop();
 		levelView.showGameOverImage();
+
+		Button retryButton = new Button("Retry");
+		retryButton = new Button("Retry");
+		retryButton.setLayoutX(screenWidth / 2 - 50);
+		retryButton.setLayoutY(screenHeight / 2);
+		retryButton.setStyle("-fx-font-size: 18px; -fx-padding: 10px 20px;");
+
+		// Add action to retry button
+		if (controller != null) {
+			retryButton.setOnAction(e -> controller.retryLevel());
+		} else {
+			System.out.println("Controller is not initialized!");
+		}
+
+		root.getChildren().add(retryButton);
 	}
 
 	protected UserPlane getUser() {
