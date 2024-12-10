@@ -3,11 +3,13 @@ package com.example.demo.Levels;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.example.demo.CommonElements.ExplosionImage;
 import com.example.demo.CommonElements.FighterPlane;
 import com.example.demo.Level1.ActiveActorDestructible;
 import com.example.demo.LevelView;
 import com.example.demo.Screen.PauseScreen;
 import com.example.demo.User.UserPlane;
+import com.example.demo.User.UserProjectile;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -216,8 +218,24 @@ public abstract class LevelParent extends Observable {
 	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
 		List<ActiveActorDestructible> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
 				.collect(Collectors.toList());
-		root.getChildren().removeAll(destroyedActors);
-		actors.removeAll(destroyedActors);
+
+		//iterate over each destroyed actor
+		for (ActiveActorDestructible destroyed : destroyedActors) {
+			if (!(destroyed instanceof UserProjectile)) {
+			//create explosion
+				double explosionX = destroyed.getBoundsInParent().getMinX();
+				double explosionY = destroyed.getBoundsInParent().getMinY();
+				ExplosionImage explosion = new ExplosionImage(explosionX, explosionY);
+				root.getChildren().add(explosion);
+
+				// Pause transition for explosion effect
+				PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+				pause.setOnFinished(event -> root.getChildren().remove(explosion));
+				pause.play();
+			}
+			root.getChildren().removeAll(destroyedActors);
+			actors.removeAll(destroyedActors);
+		}
 	}
 
 	private void handlePlaneCollisions() {
