@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import com.example.demo.CommonElements.ExplosionImage;
 import com.example.demo.CommonElements.FighterPlane;
 import com.example.demo.Level1.ActiveActorDestructible;
+import com.example.demo.Level2.LevelViewLevelTwo;
+import com.example.demo.LevelChallenge.Scoreboard;
 import com.example.demo.LevelView;
 import com.example.demo.Screen.PauseScreen;
 import com.example.demo.User.UserPlane;
@@ -20,7 +22,8 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 public abstract class LevelParent extends Observable {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 120;
@@ -42,7 +45,7 @@ public abstract class LevelParent extends Observable {
 	private final List<ActiveActorDestructible> enemyProjectiles;
 
 	private int currentNumberOfEnemies;
-	private boolean isPaused= false;
+	private boolean isPaused = false;
 	private LevelView levelView;
 
 	private Controller controller;
@@ -50,6 +53,9 @@ public abstract class LevelParent extends Observable {
 	private int previousKillCount = 0;
 	protected Text scoreText;
 	private int score = 0;
+
+	private Scoreboard scoreboard;
+
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, Controller controller) {
 		this.root = new Group();
@@ -72,8 +78,17 @@ public abstract class LevelParent extends Observable {
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
 		friendlyUnits.add(user);
-		this.killCountText = new Text(20,40,"Kill Count : 0 / 10");
+		this.killCountText = new Text(20, 40, "Kill Count : 0 / 10");
 		this.scoreText = new Text(20, 70, "Score: 0");
+		this.scoreboard = new Scoreboard(300, 100);
+		initializeScoreboard();
+
+	}
+
+	private void initializeScoreboard() {
+		this.scoreboard = new Scoreboard(20, 100); // Adjust position as needed
+		System.out.println("Scoreboard initialized.");
+		scoreboard.displayScoreboard(root); // Add the scoreboard to the root
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -84,41 +99,49 @@ public abstract class LevelParent extends Observable {
 
 	protected abstract LevelView instantiateLevelView();
 
-	public Scene initializeScene(double stageWidth,double stageHeight) {
+	public Scene initializeScene(double stageWidth, double stageHeight) {
+		root.getChildren().clear();
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
 		initializeUI(stageWidth, stageHeight);
 		background.requestFocus();
+		// Initialize Scoreboard
+		if (scoreboard == null) {
+			scoreboard = new Scoreboard(100, 100);
+			System.out.println("Scoreboard initialized during scene setup.");
+		}
 		return scene;
 	}
 
 	public void startGame() {
 		background.requestFocus();
 		timeline.play();
-		System.out.println("Game started: "+ this.getClass().getSimpleName());
+		System.out.println("Game started: " + this.getClass().getSimpleName());
 	}
 
 	//fixed timeline issue by adding stop game
-	public void stopGame(){
-		if (timeline !=null && timeline.getStatus()==Animation.Status.RUNNING){
+	public void stopGame() {
+		if (timeline != null && timeline.getStatus() == Animation.Status.RUNNING) {
 			timeline.stop();//stop game loop
 		}
 	}
 
-	public void pauseGame(){
-		if(timeline !=null && timeline.getStatus()==Animation.Status.RUNNING){
+	public void pauseGame() {
+		if (timeline != null && timeline.getStatus() == Animation.Status.RUNNING) {
 			timeline.pause();//pause the timeline
 			System.out.println("Game paused");//debugging statement
 			isPaused = true; //set to true to pause game
 		}
 	}
+
 	public void resumeGame() {
 		if (timeline != null && timeline.getStatus() == Animation.Status.PAUSED) {
 			System.out.println("Resuming game, Timeline status before play: " + timeline.getStatus());
 			timeline.play(); // Resume the timeline
 			System.out.println("Timeline status after play: " + timeline.getStatus());
 			isPaused = false;
+			background.requestFocus();
 		}
 	}
 
@@ -144,10 +167,11 @@ public abstract class LevelParent extends Observable {
 		System.out.println("Game restarted: " + this.getClass().getSimpleName());
 	}*/
 
-	private void initializeUI(double stageWidth, double stageHeight){
+	private void initializeUI(double stageWidth, double stageHeight) {
 		PauseScreen pauseScreen = new PauseScreen(1240, 8, stageWidth, stageHeight, this);
 		root.getChildren().add(pauseScreen.getContainer());
 	}
+
 	public void goToNextLevel(String levelName) {
 		setChanged();
 		notifyObservers(levelName);
@@ -252,6 +276,28 @@ public abstract class LevelParent extends Observable {
 			actors.removeAll(destroyedActors);
 		}
 	}
+	/*private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
+		List<ActiveActorDestructible> destroyedActors = actors.stream()
+				.filter(ActiveActorDestructible::isDestroyed)
+				.collect(Collectors.toList());
+
+		for (ActiveActorDestructible destroyed : destroyedActors) {
+			double explosionX = destroyed.getBoundsInParent().getMinX();
+			double explosionY = destroyed.getBoundsInParent().getMinY();
+			// Check if the destroyed actor is an enemy
+			if (destroyed instanceof FighterPlane) {
+				ExplosionImage explosion = new ExplosionImage(explosionX, explosionY);
+				root.getChildren().add(explosion);
+
+				PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+				pause.setOnFinished(event -> root.getChildren().remove(explosion));
+				pause.play();
+			}
+		}
+
+		root.getChildren().removeAll(destroyedActors);
+		actors.removeAll(destroyedActors);
+	}*/
 
 	private void handlePlaneCollisions() {
 		handleCollisions(friendlyUnits, enemyUnits);
@@ -286,6 +332,30 @@ public abstract class LevelParent extends Observable {
 			}
 		}
 	}
+	/*private void handleCollisions(List<ActiveActorDestructible> actors1, List<ActiveActorDestructible> actors2) {
+		for (ActiveActorDestructible actor : actors2) {
+			// Skip collision if the actor is the user and the shield is active
+			if (actor instanceof UserPlane && ((UserPlane) actor).isShieldAllowed()) {
+				continue;  // Skip the collision check for the user plane if the shield is active
+			}
+
+			for (ActiveActorDestructible otherActor : actors1) {
+				// Skip collision if the actor is the user and the shield is active
+				if (otherActor instanceof UserPlane && ((UserPlane) otherActor).isShieldAllowed()) {
+					continue;  // Skip the collision check if the shield is active
+				}
+
+				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+					actor.takeDamage();
+					otherActor.takeDamage();
+					if (actor instanceof UserPlane || otherActor instanceof UserPlane) {
+						score -= 10;  // Subtract 10 points
+						scoreText.setText("Score: " + score);  // Update the score display
+					}
+				}
+			}
+		}
+	}*/
 
 	private void handleEnemyPenetration() {
 		for (ActiveActorDestructible enemy : enemyUnits) {
@@ -303,10 +373,10 @@ public abstract class LevelParent extends Observable {
 	private void updateKillCount() {
 		for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
 			user.incrementKillCount();
-			score +=10;
+			score += 10;
 		}
-		if (user.getNumberOfKills() !=previousKillCount){
-			killCountText.setText("Kill Count :  " + user.getNumberOfKills()+ "/10");
+		if (user.getNumberOfKills() != previousKillCount) {
+			killCountText.setText("Kill Count :  " + user.getNumberOfKills() + "/10");
 			scoreText.setText("Score: " + score);
 
 			previousKillCount = user.getNumberOfKills();
@@ -320,6 +390,14 @@ public abstract class LevelParent extends Observable {
 	protected void winGame() {
 		timeline.stop();
 		levelView.showWinImage();
+		if (scoreboard != null) {
+			if (score >= 0) {
+				scoreboard.addScore(score);  // Add the score to the scoreboard when the game is won
+				scoreboard.displayScoreboard(root);  // Display the scoreboard
+
+			}
+
+		}
 	}
 
 	protected void loseGame() {
@@ -327,9 +405,10 @@ public abstract class LevelParent extends Observable {
 		levelView.showGameOverImage();
 
 		Button retryButton = new Button("Retry");
-		retryButton = new Button("Retry");
+		retryButton.toFront();
 		retryButton.setLayoutX(screenWidth / 2 - 50);
-		retryButton.setLayoutY(screenHeight / 3+200);
+		retryButton.setLayoutY(screenHeight / 3 + 250);
+		retryButton.setVisible(true);
 		retryButton.setStyle("-fx-font-size: 18px; -fx-padding: 10px 20px;");
 
 		// Add action to retry button
@@ -340,6 +419,7 @@ public abstract class LevelParent extends Observable {
 		}
 
 		root.getChildren().add(retryButton);
+
 	}
 
 	protected void loseChallenge() {
@@ -350,20 +430,19 @@ public abstract class LevelParent extends Observable {
 			System.out.println("Error: Timeline is null.");
 		}
 
-
-
+		scoreboard.addScore(score);  // Add the score to the scoreboard when the game is lost
+		scoreboard.displayScoreboard(root);  // Display the scoreboard
 
 
 		// Add Retry Button
 		if (root != null) {
 			Button retryButton = new Button("Retry");
 			retryButton.setLayoutX(screenWidth / 2 - 50); // Center the button horizontally
-			retryButton.setLayoutY(screenHeight / 3+200);     // Position it vertically in the middle
+			retryButton.setLayoutY(screenHeight / 3 + 200);     // Position it vertically in the middle
 			retryButton.setStyle("-fx-font-size: 18px; -fx-padding: 10px 20px;"); // Style the button
 			if (controller != null) {
 				retryButton.setOnAction(e -> controller.retryLevel());
-			}
-			else {
+			} else {
 				System.out.println("Controller is not initialized!");
 			}
 
