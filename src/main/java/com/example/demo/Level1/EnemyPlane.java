@@ -6,10 +6,10 @@ public class EnemyPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "enemyplane.png";
 	private static final int IMAGE_HEIGHT = 55;
-	private static final int HORIZONTAL_VELOCITY = -2;
-	private static final double PROJECTILE_X_POSITION_OFFSET = 0.0;
+	private static final int HORIZONTAL_VELOCITY = -3;
+	private static final double PROJECTILE_X_POSITION_OFFSET = -10.0;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 18.0;
-	private static final int INITIAL_HEALTH = 10;
+	private static final int INITIAL_HEALTH = 1;
 	private static final double FIRE_RATE = .015;
 	private static final double SCREEN_HEIGHT = 1200; // Fullscreen height
 	private static final double Y_UPPER_BOUND = SCREEN_HEIGHT * 0.1;

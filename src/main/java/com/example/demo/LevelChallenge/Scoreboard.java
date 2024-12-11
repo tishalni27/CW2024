@@ -21,7 +21,7 @@ public class Scoreboard {
         topScores = loadScores();
 
         // Create and set up the scoreboard text
-        scoreboardText = new Text(725, 350, getScoreboardText());
+        scoreboardText = new Text(725, 320, getScoreboardText());
         scoreboardText.setFill(Color.WHITE); // Set the text color to white
         scoreboardText.setFont(Font.font("Arial", FontWeight.BOLD, 25));
         scoreboardText.toFront(); // Ensure text is in front

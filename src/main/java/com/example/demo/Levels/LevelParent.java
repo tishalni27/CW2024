@@ -390,14 +390,7 @@ public abstract class LevelParent extends Observable {
 	protected void winGame() {
 		timeline.stop();
 		levelView.showWinImage();
-		if (scoreboard != null) {
-			if (score >= 0) {
-				scoreboard.addScore(score);  // Add the score to the scoreboard when the game is won
-				scoreboard.displayScoreboard(root);  // Display the scoreboard
 
-			}
-
-		}
 	}
 
 	protected void loseGame() {
