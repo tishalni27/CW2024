@@ -16,12 +16,14 @@ public class LevelThree extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background3.png";
     private static final String NEXT_LEVEL = "com.example.demo.LevelTwo";
     private static final int TOTAL_ENEMIES = 5;
-    private static final int KILLS_TO_ADVANCE = 34;
+    private static final int KILLS_TO_ADVANCE = 10;
     private static final double ENEMY_SPAWN_PROBABILITY = 0.20;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
     private long lastShieldUsedTime = 0; // Time when the shield was last activated
     private Text shieldMessage;  // Text element to show the shield activation message
+    private static final double ENEMY_SPAWN_MIN_Y = 100.0;  // Minimum Y position for enemy spawn
+    private static final double ENEMY_SPAWN_MAX_Y = 700.0;  // Maximum Y position for enemy spawn
 
     public LevelThree(double screenHeight, double screenWidth, Controller controller) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, controller);
@@ -32,7 +34,7 @@ public class LevelThree extends LevelParent {
         if (userIsDestroyed()) {
             loseGame();
         } else if (userHasReachedKillTarget()) {
-            goToNextLevel(NEXT_LEVEL);
+            winGame();
         }
     }
 
@@ -49,6 +51,7 @@ public class LevelThree extends LevelParent {
         getRoot().getChildren().add(getUser());
 
         // Add kill count text
+
         killCountText.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;");
         killCountText.setLayoutX(650); // Adjusted X position
         killCountText.setLayoutY(30);  // Adjusted Y position
@@ -100,7 +103,7 @@ public class LevelThree extends LevelParent {
     private void deactivateShieldAfterTimeout(UserPlane userPlane) {
         // Create a timeline to wait 5 seconds before deactivating the shield
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(5), event -> {
+                new KeyFrame(Duration.seconds(7), event -> {
                     userPlane.setShieldAllowed(false); // Deactivate shield
                     System.out.println("Shield deactivated after 5 seconds");
 
@@ -116,7 +119,7 @@ public class LevelThree extends LevelParent {
     private void waitForShieldCooldown() {
         // Create a timeline to wait 10 seconds before showing the "Use shield" message again
         Timeline cooldownTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(10), event -> {
+                new KeyFrame(Duration.seconds(5), event -> {
                     // After the cooldown period, show the "Use shield" message again
                     shieldMessage.setVisible(true);
                     System.out.println("You can use the shield again!");
@@ -131,7 +134,9 @@ public class LevelThree extends LevelParent {
         int currentNumberOfEnemies = getCurrentNumberOfEnemies();
         for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
             if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
-                double enemyY = Math.random() * getEnemyMaximumYPosition();
+
+                //custom bounds for bigger enemies
+                double enemyY = ENEMY_SPAWN_MIN_Y + Math.random() * (ENEMY_SPAWN_MAX_Y - ENEMY_SPAWN_MIN_Y);
                 ActiveActorDestructible newEnemy = new EnemyLevelThree(getScreenWidth(), enemyY);
                 addEnemyUnit(newEnemy);
             }

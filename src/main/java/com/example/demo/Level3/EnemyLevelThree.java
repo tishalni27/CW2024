@@ -8,11 +8,11 @@ import com.example.demo.Level1.EnemyProjectile;
 public class EnemyLevelThree extends FighterPlane {
 
     private static final String IMAGE_NAME = "enemyLevel3.png";
-    private static final int IMAGE_HEIGHT = 90;
+    private static final int IMAGE_HEIGHT = 70;
     private static final int HORIZONTAL_VELOCITY = -4;
     private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
     private static final double PROJECTILE_Y_POSITION_OFFSET = 50.0;
-    private static final int INITIAL_HEALTH = 4;
+    private static final int INITIAL_HEALTH = 10;
     private static final double FIRE_RATE = .04;
 
     public EnemyLevelThree(double initialXPos, double initialYPos) {

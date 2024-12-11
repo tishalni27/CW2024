@@ -11,14 +11,14 @@ import javafx.scene.input.KeyEvent;
 public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "userplane.png";
-	private static final double Y_UPPER_BOUND = -40;
-	private static final double Y_LOWER_BOUND = 600.0;
+	private static final double Y_UPPER_BOUND = 70;
+	private static final double Y_LOWER_BOUND = 750.0;
 	private static final double INITIAL_X_POSITION = 5.0;
 	private static final double INITIAL_Y_POSITION = 300.0;
-	private static final int IMAGE_HEIGHT = 150;
+	private static final int IMAGE_HEIGHT = 45;
 	private static final int VERTICAL_VELOCITY = 8;
-	private static final int PROJECTILE_X_POSITION = 110;
-	private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
+	private static final int PROJECTILE_X_POSITION = 180;
+	private static final int PROJECTILE_Y_POSITION_OFFSET = 30;
 	private int velocityMultiplier;
 	private int numberOfKills;
 	private ImageView shield;
@@ -38,8 +38,8 @@ public class UserPlane extends FighterPlane {
 	}
 	private ImageView createShield() {
 		ImageView shield = new ImageView(new Image(getClass().getResource("/com/example/demo/images/Usershield.png").toExternalForm()));
-		shield.setFitHeight(100);
-		shield.setFitWidth(100);
+		shield.setFitHeight(120);
+		shield.setFitWidth(120);
 		shield.setVisible(false); // Initially, shield is hidden
 		return shield;
 	}
@@ -115,8 +115,8 @@ public class UserPlane extends FighterPlane {
 	}*/
 	public void updateShieldPosition() {
 		if (shield != null) {
-			double shieldX = this.getLayoutX() + 155; // Add offset for positioning
-			double shieldY = this.getLayoutY() + 30 + this.getTranslateY();
+			double shieldX = this.getLayoutX() + 185; // Add offset for positioning
+			double shieldY = this.getLayoutY() + (-20) + this.getTranslateY();
 			shield.setLayoutX(shieldX);
 			shield.setLayoutY(shieldY);
 		}

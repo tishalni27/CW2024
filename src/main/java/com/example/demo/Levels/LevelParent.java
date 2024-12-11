@@ -23,11 +23,12 @@ import javafx.util.Duration;
 
 public abstract class LevelParent extends Observable {
 
-	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+	private static final double SCREEN_HEIGHT_ADJUSTMENT = 120;
 	private static final int MILLISECOND_DELAY = 50;
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
+	//private final double enemyMinimumYPosition;
 
 	private final Group root;
 	private final Timeline timeline;
@@ -63,6 +64,8 @@ public abstract class LevelParent extends Observable {
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
+		//this.enemyMinimumYPosition = ;
+
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
@@ -314,7 +317,7 @@ public abstract class LevelParent extends Observable {
 		Button retryButton = new Button("Retry");
 		retryButton = new Button("Retry");
 		retryButton.setLayoutX(screenWidth / 2 - 50);
-		retryButton.setLayoutY(screenHeight / 2);
+		retryButton.setLayoutY(screenHeight / 3+200);
 		retryButton.setStyle("-fx-font-size: 18px; -fx-padding: 10px 20px;");
 
 		// Add action to retry button
