@@ -42,5 +42,10 @@
       </Text>
       <Button layoutX="80.0" layoutY="67.0" mnemonicParsing="false" onAction="#homeScreen" prefHeight="114.0" prefWidth="136.0" style="-fx-background-color: transparent;" />
       <Button layoutX="660.0" layoutY="558.0" mnemonicParsing="false" onAction="#unlimitedKills" prefHeight="42.0" prefWidth="157.0" text="CHALLENGE" />
+      <Button layoutX="1357.0" layoutY="77.0" mnemonicParsing="false" onAction="#howToPlay" prefHeight="53.0" prefWidth="126.0" text="HOW TO PLAY">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

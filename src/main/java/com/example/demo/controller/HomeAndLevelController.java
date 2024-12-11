@@ -97,6 +97,30 @@ public class HomeAndLevelController {
     }
 
     @FXML
+    public void howToPlay(ActionEvent event) {
+        try {
+            // Load the LevelChoose.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GameRules.fxml"));
+            Parent root = loader.load();
+
+            // Get the current stage and set the new scene
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);  // Create a new scene with the loaded FXML
+            stage.setScene(scene);  // Set the scene for the current stage
+            stage.show();  // Only call show once after setting the scene
+            stage.setFullScreen(true);
+            System.out.println("Game Started");
+        } catch (IOException e) {
+            showErrorAlert("Error loading LevelChoose.fxml: " + e.getMessage());
+        }
+
+
+
+
+    }
+
+
+    @FXML
     public void exitGame(ActionEvent event){
         //Display confirmation before exiting game
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
