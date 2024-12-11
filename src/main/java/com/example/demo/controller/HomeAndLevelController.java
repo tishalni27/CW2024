@@ -81,7 +81,20 @@ public class HomeAndLevelController {
         }
 
     }
+    @FXML
+    public void unlimitedKills(ActionEvent event) {
+        System.out.println("Started LevelUnlimited");
+        try {
+            // Get the current stage
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
+            // Initialize the controller and launch the game
+            myController = new Controller(stage);
+            myController.launchGame("com.example.demo.Levels.LevelUnlimited");
+        } catch (Exception e) {
+            showErrorAlert("Error starting game: " + e.getMessage());
+        }
+    }
 
     @FXML
     public void exitGame(ActionEvent event){

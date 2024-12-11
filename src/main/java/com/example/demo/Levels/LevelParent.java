@@ -48,6 +48,8 @@ public abstract class LevelParent extends Observable {
 	private Controller controller;
 	protected Text killCountText;
 	private int previousKillCount = 0;
+	protected Text scoreText;
+	private int score = 0;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, Controller controller) {
 		this.root = new Group();
@@ -71,6 +73,7 @@ public abstract class LevelParent extends Observable {
 		initializeTimeline();
 		friendlyUnits.add(user);
 		this.killCountText = new Text(20,40,"Kill Count : 0 / 10");
+		this.scoreText = new Text(20, 70, "Score: 0");
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -233,15 +236,17 @@ public abstract class LevelParent extends Observable {
 		for (ActiveActorDestructible destroyed : destroyedActors) {
 			if (!(destroyed instanceof UserProjectile)) {
 			//create explosion
-				double explosionX = destroyed.getBoundsInParent().getMinX();
-				double explosionY = destroyed.getBoundsInParent().getMinY();
-				ExplosionImage explosion = new ExplosionImage(explosionX, explosionY);
-				root.getChildren().add(explosion);
+				if (destroyed instanceof FighterPlane) {
+					double explosionX = destroyed.getBoundsInParent().getMinX();
+					double explosionY = destroyed.getBoundsInParent().getMinY();
+					ExplosionImage explosion = new ExplosionImage(explosionX, explosionY);
+					root.getChildren().add(explosion);
 
-				// Pause transition for explosion effect
-				PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
-				pause.setOnFinished(event -> root.getChildren().remove(explosion));
-				pause.play();
+					// Pause transition for explosion effect
+					PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+					pause.setOnFinished(event -> root.getChildren().remove(explosion));
+					pause.play();
+				}
 			}
 			root.getChildren().removeAll(destroyedActors);
 			actors.removeAll(destroyedActors);
@@ -270,10 +275,14 @@ public abstract class LevelParent extends Observable {
 				if (otherActor instanceof UserPlane && ((UserPlane) otherActor).isShieldAllowed()) {
 					continue;  // Skip the collision check if the shield is active
 				}
-				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-					actor.takeDamage();
-					otherActor.takeDamage();
-				}
+					if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+						actor.takeDamage();
+						otherActor.takeDamage();
+						if (actor instanceof UserPlane || otherActor instanceof UserPlane) {
+							score -= 10;  // Subtract 10 points
+							scoreText.setText("Score: " + score);  // Update the score display
+						}
+					}
 			}
 		}
 	}
@@ -294,9 +303,12 @@ public abstract class LevelParent extends Observable {
 	private void updateKillCount() {
 		for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
 			user.incrementKillCount();
+			score +=10;
 		}
 		if (user.getNumberOfKills() !=previousKillCount){
 			killCountText.setText("Kill Count :  " + user.getNumberOfKills()+ "/10");
+			scoreText.setText("Score: " + score);
+
 			previousKillCount = user.getNumberOfKills();
 		}
 	}
@@ -328,6 +340,38 @@ public abstract class LevelParent extends Observable {
 		}
 
 		root.getChildren().add(retryButton);
+	}
+
+	protected void loseChallenge() {
+
+		if (timeline != null) {
+			timeline.stop();
+		} else {
+			System.out.println("Error: Timeline is null.");
+		}
+
+
+
+
+
+		// Add Retry Button
+		if (root != null) {
+			Button retryButton = new Button("Retry");
+			retryButton.setLayoutX(screenWidth / 2 - 50); // Center the button horizontally
+			retryButton.setLayoutY(screenHeight / 3+200);     // Position it vertically in the middle
+			retryButton.setStyle("-fx-font-size: 18px; -fx-padding: 10px 20px;"); // Style the button
+			if (controller != null) {
+				retryButton.setOnAction(e -> controller.retryLevel());
+			}
+			else {
+				System.out.println("Controller is not initialized!");
+			}
+
+			root.getChildren().add(retryButton);
+		} else {
+			System.out.println("Error: Root node is not initialized.");
+		}
+
 	}
 
 	protected void updateUserShieldPosition() {
