@@ -1,10 +1,10 @@
-package com.example.demo.Levels;
+package com.example.demo.Level3;
 
-import com.example.demo.Level1.ActiveActorDestructible;
-import com.example.demo.Level3.EnemyLevelThree;
+import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
 import com.example.demo.LevelView;
+import com.example.demo.Levels.LevelParent;
 import com.example.demo.User.UserPlane;
-import com.example.demo.controller.Controller;
+import com.example.demo.controller.GameController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
@@ -25,7 +25,7 @@ public class LevelThree extends LevelParent {
     private static final double ENEMY_SPAWN_MIN_Y = 100.0;  // Minimum Y position for enemy spawn
     private static final double ENEMY_SPAWN_MAX_Y = 700.0;  // Maximum Y position for enemy spawn
 
-    public LevelThree(double screenHeight, double screenWidth, Controller controller) {
+    public LevelThree(double screenHeight, double screenWidth, GameController controller) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, controller);
     }
 

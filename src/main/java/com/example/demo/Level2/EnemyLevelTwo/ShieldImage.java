@@ -1,4 +1,4 @@
-package com.example.demo.Level2;
+package com.example.demo.Level2.EnemyLevelTwo;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

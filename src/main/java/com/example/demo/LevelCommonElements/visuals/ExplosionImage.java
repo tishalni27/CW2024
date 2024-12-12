@@ -1,4 +1,4 @@
-package com.example.demo.CommonElements;
+package com.example.demo.LevelCommonElements.visuals;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

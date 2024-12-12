@@ -1,4 +1,4 @@
-package com.example.demo.CommonElements;
+package com.example.demo.LevelCommonElements;
 
 public interface Destructible {
 

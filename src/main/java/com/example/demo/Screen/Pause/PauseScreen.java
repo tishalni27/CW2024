@@ -1,4 +1,4 @@
-package com.example.demo.Screen;
+package com.example.demo.Screen.Pause;
 
 import com.example.demo.Levels.LevelParent;
 import javafx.fxml.FXMLLoader;

@@ -1,7 +1,7 @@
 package com.example.demo.User;
 
-import com.example.demo.CommonElements.FighterPlane;
-import com.example.demo.Level1.ActiveActorDestructible;
+import com.example.demo.LevelCommonElements.Actor.FighterPlane;
+import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

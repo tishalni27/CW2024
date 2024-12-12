@@ -14,16 +14,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.demo.Levels.LevelParent;
 
-public class Controller implements Observer {
+public class GameController implements Observer {
 
-	//private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.Levels.LevelOne";
+	//private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.Level1.LevelOne";
 	private final Stage stage;
 	private LevelParent currentLevel;
 	private Parent root;
 	//private Scene scene;
 	private String gameLevel;
 
-	public Controller(Stage stage) {
+	public GameController(Stage stage) {
 
 		this.stage = stage;
 	}
@@ -50,7 +50,7 @@ public class Controller implements Observer {
 			}
 
 			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class, Controller.class);
+			Constructor<?> constructor = myClass.getConstructor(double.class, double.class, GameController.class);
 			currentLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth(),this);
 			currentLevel.addObserver(this);
 			Scene scene = currentLevel.initializeScene(stage.getWidth(), stage.getHeight());

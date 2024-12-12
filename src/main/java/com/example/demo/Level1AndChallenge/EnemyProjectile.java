@@ -1,6 +1,6 @@
-package com.example.demo.Level1;
+package com.example.demo.Level1AndChallenge;
 
-import com.example.demo.CommonElements.Projectile;
+import com.example.demo.LevelCommonElements.Actor.Projectile;
 
 public class EnemyProjectile extends Projectile {
 	

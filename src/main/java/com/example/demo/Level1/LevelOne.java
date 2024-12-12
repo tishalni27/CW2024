@@ -1,20 +1,21 @@
-package com.example.demo.Levels;
+package com.example.demo.Level1;
 
-import com.example.demo.Level1.ActiveActorDestructible;
-import com.example.demo.Level1.EnemyPlane;
+import com.example.demo.Level1AndChallenge.EnemyPlane;
+import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
 import com.example.demo.LevelView;
-import com.example.demo.controller.Controller;
+import com.example.demo.Levels.LevelParent;
+import com.example.demo.controller.GameController;
 
 public class LevelOne extends LevelParent {
 	
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
-	private static final String NEXT_LEVEL = "com.example.demo.Levels.LevelTwo";
+	private static final String NEXT_LEVEL = "com.example.demo.Level2.LevelTwo";
 	private static final int TOTAL_ENEMIES = 5;
 	private static final int KILLS_TO_ADVANCE = 10;
 	private static final double ENEMY_SPAWN_PROBABILITY = .20;
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 
-	public LevelOne(double screenHeight, double screenWidth, Controller controller) {
+	public LevelOne(double screenHeight, double screenWidth, GameController controller) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, controller);
 	}
 

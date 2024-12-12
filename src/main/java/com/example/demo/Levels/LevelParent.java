@@ -3,16 +3,15 @@ package com.example.demo.Levels;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.example.demo.CommonElements.ExplosionImage;
-import com.example.demo.CommonElements.FighterPlane;
-import com.example.demo.Level1.ActiveActorDestructible;
-import com.example.demo.Level2.LevelViewLevelTwo;
+import com.example.demo.LevelCommonElements.visuals.ExplosionImage;
+import com.example.demo.LevelCommonElements.Actor.FighterPlane;
+import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
 import com.example.demo.LevelChallenge.Scoreboard;
 import com.example.demo.LevelView;
-import com.example.demo.Screen.PauseScreen;
+import com.example.demo.Screen.Pause.PauseScreen;
 import com.example.demo.User.UserPlane;
 import com.example.demo.User.UserProjectile;
-import com.example.demo.controller.Controller;
+import com.example.demo.controller.GameController;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -48,7 +47,7 @@ public abstract class LevelParent extends Observable {
 	private boolean isPaused = false;
 	private LevelView levelView;
 
-	private Controller controller;
+	private GameController controller;
 	protected Text killCountText;
 	private int previousKillCount = 0;
 	protected Text scoreText;
@@ -57,7 +56,7 @@ public abstract class LevelParent extends Observable {
 	private Scoreboard scoreboard;
 
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, Controller controller) {
+	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth, GameController controller) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();

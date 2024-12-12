@@ -1,9 +1,9 @@
 package com.example.demo.Level3;
 
 
-import com.example.demo.CommonElements.FighterPlane;
-import com.example.demo.Level1.ActiveActorDestructible;
-import com.example.demo.Level1.EnemyProjectile;
+import com.example.demo.LevelCommonElements.Actor.FighterPlane;
+import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
+import com.example.demo.Level1AndChallenge.EnemyProjectile;
 
 public class EnemyLevelThree extends FighterPlane {
 

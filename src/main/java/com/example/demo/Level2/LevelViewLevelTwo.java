@@ -1,5 +1,6 @@
 package com.example.demo.Level2;
 
+import com.example.demo.Level2.EnemyLevelTwo.ShieldImage;
 import com.example.demo.LevelView;
 import javafx.scene.Group;
 

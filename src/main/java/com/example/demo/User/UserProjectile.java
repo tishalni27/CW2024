@@ -1,6 +1,6 @@
 package com.example.demo.User;
 
-import com.example.demo.CommonElements.Projectile;
+import com.example.demo.LevelCommonElements.Actor.Projectile;
 
 public class UserProjectile extends Projectile {
 

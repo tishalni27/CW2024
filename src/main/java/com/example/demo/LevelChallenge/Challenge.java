@@ -1,11 +1,12 @@
-package com.example.demo.Levels;
+package com.example.demo.LevelChallenge;
 
-import com.example.demo.Level1.ActiveActorDestructible;
-import com.example.demo.Level1.EnemyPlane;
+import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
+import com.example.demo.Level1AndChallenge.EnemyPlane;
 import com.example.demo.LevelView;
-import com.example.demo.controller.Controller;
+import com.example.demo.Levels.LevelParent;
+import com.example.demo.controller.GameController;
 
-public class LevelUnlimited extends LevelParent {
+public class Challenge extends LevelParent {
 
 
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background4.jpg";
@@ -15,7 +16,7 @@ public class LevelUnlimited extends LevelParent {
     private static final double ENEMY_SPAWN_PROBABILITY = .20;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
-    public LevelUnlimited(double screenHeight, double screenWidth, Controller controller) {
+    public Challenge(double screenHeight, double screenWidth, GameController controller) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, controller);
     }
 

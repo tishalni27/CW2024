@@ -1,7 +1,8 @@
-package com.example.demo.Level2;
+package com.example.demo.Level2.EnemyLevelTwo;
 
-import com.example.demo.CommonElements.FighterPlane;
-import com.example.demo.Level1.ActiveActorDestructible;
+import com.example.demo.Level2.LevelViewLevelTwo;
+import com.example.demo.LevelCommonElements.Actor.FighterPlane;
+import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
 
 import java.util.*;
 

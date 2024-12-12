@@ -1,4 +1,4 @@
-package com.example.demo.Level1;
+package com.example.demo.LevelCommonElements.Actor;
 
 import javafx.scene.image.*;
 

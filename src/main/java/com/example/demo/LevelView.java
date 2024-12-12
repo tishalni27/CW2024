@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.CommonElements.HeartDisplay;
+import com.example.demo.LevelCommonElements.visuals.HeartDisplay;
 import com.example.demo.Screen.GameOverImage;
 import com.example.demo.Screen.WinImage;
 import javafx.scene.Group;
