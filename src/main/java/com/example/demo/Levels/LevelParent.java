@@ -103,7 +103,7 @@ public abstract class LevelParent extends Observable {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
-		initializeUI(stageWidth, stageHeight);
+		initializePauseScreen(stageWidth, stageHeight);
 		background.requestFocus();
 		// Initialize Scoreboard
 		if (scoreboard == null) {
@@ -166,7 +166,7 @@ public abstract class LevelParent extends Observable {
 		System.out.println("Game restarted: " + this.getClass().getSimpleName());
 	}*/
 
-	private void initializeUI(double stageWidth, double stageHeight) {
+	private void initializePauseScreen(double stageWidth, double stageHeight) {
 		PauseScreen pauseScreen = new PauseScreen(1240, 8, stageWidth, stageHeight, this);
 		root.getChildren().add(pauseScreen.getContainer());
 	}
@@ -479,6 +479,10 @@ public abstract class LevelParent extends Observable {
 	protected double getScreenWidth() {
 		return screenWidth;
 	}
+	public double getScreenHeight() {
+		return this.screenHeight;
+	}
+
 
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();

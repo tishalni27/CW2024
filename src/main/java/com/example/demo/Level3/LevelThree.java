@@ -11,19 +11,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-public class LevelThree extends LevelParent {
+import static com.example.demo.Level3.LevelThreeConfig.*;
 
-    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background3.png";
-    private static final String NEXT_LEVEL = "com.example.demo.LevelTwo";
-    private static final int TOTAL_ENEMIES = 5;
-    private static final int KILLS_TO_ADVANCE = 10;
-    private static final double ENEMY_SPAWN_PROBABILITY = 0.20;
-    private static final int PLAYER_INITIAL_HEALTH = 5;
+public class LevelThree extends LevelParent {
 
     private long lastShieldUsedTime = 0; // Time when the shield was last activated
     private Text shieldMessage;  // Text element to show the shield activation message
-    private static final double ENEMY_SPAWN_MIN_Y = 100.0;  // Minimum Y position for enemy spawn
-    private static final double ENEMY_SPAWN_MAX_Y = 700.0;  // Maximum Y position for enemy spawn
 
     public LevelThree(double screenHeight, double screenWidth, GameController controller) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, controller);

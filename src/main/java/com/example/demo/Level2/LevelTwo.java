@@ -5,11 +5,10 @@ import com.example.demo.LevelView;
 import com.example.demo.Levels.LevelParent;
 import com.example.demo.controller.GameController;
 
+import static com.example.demo.Level2.LevelTwoConfig.*;
+
 public class LevelTwo extends LevelParent {
 
-	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
-	private static final String NEXT_LEVEL = "com.example.demo.Level3.LevelThree";
-	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private final Boss boss;
 	private LevelViewLevelTwo levelView;
 

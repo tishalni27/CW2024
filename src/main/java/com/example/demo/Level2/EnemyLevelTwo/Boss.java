@@ -3,7 +3,7 @@ package com.example.demo.Level2.EnemyLevelTwo;
 import com.example.demo.Level2.LevelViewLevelTwo;
 import com.example.demo.LevelCommonElements.Actor.FighterPlane;
 import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
-
+import static com.example.demo.Level2.EnemyLevelTwo.BossConfig.*;
 import java.util.*;
 
 public class Boss extends FighterPlane {
@@ -13,16 +13,14 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 55.0;
 	private static final double BOSS_FIRE_RATE = .04;
-	private static final double BOSS_SHIELD_PROBABILITY = .05;
 	private static final int IMAGE_HEIGHT = 80;
 	private static final int VERTICAL_VELOCITY = 8;
-	private static final int HEALTH = 10;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
 	private static final int Y_POSITION_UPPER_BOUND = 140;
 	private static final int Y_POSITION_LOWER_BOUND = 600;
-	private static final int MAX_FRAMES_WITH_SHIELD = 40;//changed max frame because its too long
+
 	private final List<Integer> movePattern;
 	private boolean isShielded;
 	private int consecutiveMovesInSameDirection;
@@ -31,7 +29,7 @@ public class Boss extends FighterPlane {
 
 	private final LevelViewLevelTwo levelView;
 	public Boss(LevelViewLevelTwo levelView) {
-		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
+		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, BOSS_INITIAL_HEALTH);
 		movePattern = new ArrayList<>();
 		consecutiveMovesInSameDirection = 0;
 		indexOfCurrentMove = 0;

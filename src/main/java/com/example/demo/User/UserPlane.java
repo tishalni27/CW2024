@@ -1,5 +1,6 @@
 package com.example.demo.User;
 
+import com.example.demo.Level3.UserShield;
 import com.example.demo.LevelCommonElements.Actor.FighterPlane;
 import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
 import javafx.scene.Group;
@@ -21,34 +22,27 @@ public class UserPlane extends FighterPlane {
 	private static final int PROJECTILE_Y_POSITION_OFFSET = 30;
 	private int velocityMultiplier;
 	private int numberOfKills;
-	private ImageView shield;
-	private boolean shieldAllowed; // Global flag for shield usage
+	private UserShield userShield;
+
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
 		velocityMultiplier = 0;
 
-		shieldAllowed = false; // Default to false
+		//shieldAllowed = false; // Default to false
 		// Initialize shield
-		shield = createShield();
-		updateShieldPosition();
-
+		//shield = createShield();
+		//updateShieldPosition();
+		this.userShield = new UserShield(this);
 		// Set up key event handler for Enter key
 		this.setOnKeyPressed(event -> handleKeyPress(event));
-	}
-	private ImageView createShield() {
-		ImageView shield = new ImageView(new Image(getClass().getResource("/com/example/demo/images/Usershield.png").toExternalForm()));
-		shield.setFitHeight(120);
-		shield.setFitWidth(120);
-		shield.setVisible(false); // Initially, shield is hidden
-		return shield;
 	}
 
 	private void handleKeyPress(KeyEvent event) {
 		// Check if Enter key is pressed
 		if (event.getCode() == KeyCode.ENTER) {
 			// Toggle shieldAllowed when Enter is pressed
-			setShieldAllowed(!shieldAllowed);
+			userShield.setShieldAllowed(!userShield.isShieldAllowed());
 		}
 	}
 
@@ -63,7 +57,7 @@ public class UserPlane extends FighterPlane {
 			}
 
 			// Update shield position after moving
-			updateShieldPosition();
+			userShield.updateShieldPosition();
 		}
 	}
 	
@@ -113,34 +107,22 @@ public class UserPlane extends FighterPlane {
 		this.numberOfKills =0;
 
 	}*/
-	public void updateShieldPosition() {
-		if (shield != null) {
-			double shieldX = this.getLayoutX() + 185; // Add offset for positioning
-			double shieldY = this.getLayoutY() + (-20) + this.getTranslateY();
-			shield.setLayoutX(shieldX);
-			shield.setLayoutY(shieldY);
-		}
-	}
 	public void addShieldToScene(Group root) {
-		if (!root.getChildren().contains(shield)) {
-			root.getChildren().add(shield);
-		}
-		shield.setVisible(shieldAllowed && shield.isVisible()); // Make sure visibility matches the flag
+		userShield.addShieldToScene(root);  // Adding the shield to the scene via UserShield
+	}
+	public void setShieldAllowed(boolean allowed) {
+		userShield.setShieldAllowed(allowed);
 	}
 
-	// Method to enable or disable the shield
-	public void setShieldAllowed(boolean allowed) {
-		this.shieldAllowed = allowed;
-		if (!allowed && shield != null) {
-			shield.setVisible(false); // Hide the shield if globally disabled
-		}
-		if (allowed && shield != null) {
-			shield.setVisible(true);
+	public void updateShieldPosition() {
+		if (userShield != null) {
+			userShield.updateShieldPosition(); // Delegate to UserShield to update position
 		}
 	}
+
 
 	public boolean isShieldAllowed() {
-		return shieldAllowed;
+		return userShield.isShieldAllowed();
 	}
 
 }
