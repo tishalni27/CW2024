@@ -1,11 +1,11 @@
 package com.example.demo.Level1;
 
-import com.example.demo.Level1AndChallenge.EnemyPlane;
+import com.example.demo.Level1AndChallenge.EnemyLevel1;
 import com.example.demo.LevelCommonElements.Actor.ActiveActorDestructible;
 import com.example.demo.LevelView;
 import com.example.demo.Levels.LevelParent;
 import com.example.demo.controller.GameController;
-import java.util.Objects;
+
 import static com.example.demo.Level1.LevelOneConfig.*;
 
 
@@ -56,7 +56,7 @@ public class LevelOne extends LevelParent {
 		for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
 				double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
-				ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
+				ActiveActorDestructible newEnemy = new EnemyLevel1(getScreenWidth(), newEnemyInitialYPosition);
 				addEnemyUnit(newEnemy);
 			}
 		}
