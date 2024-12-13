@@ -1,0 +1,16 @@
+module:com.example.demo
+com.example.demo
+com.example.demo.controller
+com.example.demo.Level1
+com.example.demo.Level1AndChallenge
+com.example.demo.Level2
+com.example.demo.Level2.EnemyLevelTwo
+com.example.demo.Level3
+com.example.demo.LevelChallenge
+com.example.demo.LevelCommonElements
+com.example.demo.LevelCommonElements.Actor
+com.example.demo.LevelCommonElements.visuals
+com.example.demo.Levels
+com.example.demo.Screen
+com.example.demo.Screen.Pause
+com.example.demo.User
