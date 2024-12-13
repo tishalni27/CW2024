@@ -16,74 +16,119 @@ import com.example.demo.Levels.LevelParent;
 
 public class GameController implements Observer {
 
-	//private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.Level1.LevelOne";
 	private final Stage stage;
 	private LevelParent currentLevel;
 	private Parent root;
-	//private Scene scene;
 	private String gameLevel;
 
 	public GameController(Stage stage) {
-
 		this.stage = stage;
 	}
 
+	/**
+	 * Launches the game by initializing and transitioning to the specified level.
+	 *
+	 * @param className the class name of the level to load
+	 * @throws ClassNotFoundException if the class is not found
+	 * @throws NoSuchMethodException if the constructor is not found
+	 * @throws SecurityException if access to the constructor is denied
+	 * @throws InstantiationException if the class cannot be instantiated
+	 * @throws IllegalAccessException if access to the constructor is denied
+	 * @throws IllegalArgumentException if illegal arguments are provided
+	 * @throws InvocationTargetException if the constructor throws an exception
+	 */
 	public void launchGame(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
-			stage.setFullScreen(true);
-			stage.show();
-			try {
-				goToLevel(className);
-			} catch (Exception e){
-				showErrorAlert(" Error launching game:" + e.getMessage());
-			}
+			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+		stage.setFullScreen(true);
+		stage.show();
+
+		try {
+			goToLevel(className);
+		} catch (Exception e) {
+			showErrorAlert("Error launching game: " + e.getMessage());
+		}
 	}
 
-	private void showErrorAlert(String s) {
+	/**
+	 * Displays an error alert with the provided message.
+	 *
+	 * @param message the error message to display
+	 */
+	private void showErrorAlert(String message) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setContentText(message);
+		alert.show();
 	}
 
+	/**
+	 * Transitions to the specified level by loading the class dynamically.
+	 *
+	 * @param className the class name of the level
+	 * @throws ClassNotFoundException if the class is not found
+	 * @throws NoSuchMethodException if the constructor is not found
+	 * @throws SecurityException if access to the constructor is denied
+	 * @throws InstantiationException if the class cannot be instantiated
+	 * @throws IllegalAccessException if access to the constructor is denied
+	 * @throws IllegalArgumentException if illegal arguments are provided
+	 * @throws InvocationTargetException if the constructor throws an exception
+	 */
 	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-			if (currentLevel !=null){
-				currentLevel.stopGame();
-			}
+		if (currentLevel != null) {
+			currentLevel.stopGame(); // Stop the current level if one exists
+		}
 
-			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class, GameController.class);
-			currentLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth(),this);
-			currentLevel.addObserver(this);
-			Scene scene = currentLevel.initializeScene(stage.getWidth(), stage.getHeight());
-			stage.setScene(scene);
-			currentLevel.startGame();
-			stage.setFullScreen(true);
+		// Dynamically load the level class and initialize it
+		Class<?> myClass = Class.forName(className);
+		Constructor<?> constructor = myClass.getConstructor(double.class, double.class, GameController.class);
+		currentLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth(), this);
 
-			//setter for GameLevel
-		    setGameLevel(className);
+		// Add this GameController as an observer of the current level
+		currentLevel.addObserver(this);
 
+		// Initialize and set the scene for the level
+		Scene scene = currentLevel.initializeScene(stage.getWidth(), stage.getHeight());
+		stage.setScene(scene);
+
+		// Start the level
+		currentLevel.startGame();
+		stage.setFullScreen(true);
+
+		// Set the game level name
+		setGameLevel(className);
 	}
 
+	/**
+	 * Updates the game state based on the observed message.
+	 *
+	 * @param o the observable object
+	 * @param arg the argument passed from the observed object
+	 */
 	@Override
-	public void update(Observable o, Object arg1) {
-		if (arg1 instanceof String) {
-			String message = (String) arg1; //cast argument to string
+	public void update(Observable o, Object arg) {
+		if (arg instanceof String) {
+			String message = (String) arg;
+
 			if ("loseGame".equals(message)) {
-				// When the message is "loseGame", execute the method to show the retry button
+				// Show the retry button when the game is lost
 				showRetryButton();
 			}
 
-
+			// Try to go to the next level based on the message
 			try {
 				goToLevel(message);
 			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException |
 					 IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText(e.getClass().toString());
-				alert.show();
+				showErrorAlert(e.getClass().toString());
 			}
 		}
 	}
 
+	/**
+	 * Displays the retry button on the current scene.
+	 */
 	public void showRetryButton() {
 		Scene scene = stage.getScene();
 		if (scene != null) {
@@ -96,19 +141,27 @@ public class GameController implements Observer {
 			}
 		}
 	}
+
+	/**
+	 * Retries the current level by launching it again.
+	 */
 	public void retryLevel() {
 		if (currentLevel != null) {
 			try {
-				launchGame(gameLevel);
+				launchGame(gameLevel); // Retry the game with the current game level
 			} catch (Exception e) {
 				showErrorAlert("Retry failed: " + e.getMessage());
 			}
 		}
 	}
+
+	/**
+	 * Sets the current game level.
+	 *
+	 * @param levelName the name of the level to set
+	 */
 	public void setGameLevel(String levelName) {
 		this.gameLevel = levelName;
 		System.out.println("Game level set to: " + gameLevel);
 	}
-
-
 }
