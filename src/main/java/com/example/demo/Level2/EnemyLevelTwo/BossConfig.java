@@ -23,7 +23,7 @@ public class BossConfig {
      * The initial health of the Boss at the start of the level.
      * This value represents how much damage the Boss can take before being defeated.
      */
-    public static final int BOSS_INITIAL_HEALTH = 2;
+    public static final int BOSS_INITIAL_HEALTH = 50;
 
     /**
      * The maximum number of frames that the Boss's shield can stay activated.
