@@ -13,14 +13,23 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.demo.Levels.LevelParent;
-
+/**
+ * The {@code GameController} class is responsible for managing the game flow,
+ * transitioning between levels, and handling game events such as starting a level,
+ * retrying a level, and showing error alerts. This class implements the {@link Observer}
+ * interface to receive updates from the current game level.
+ */
 public class GameController implements Observer {
 
 	private final Stage stage;
 	private LevelParent currentLevel;
 	private Parent root;
 	private String gameLevel;
-
+	/**
+	 * Constructs a new GameController for managing and controlling the game level.
+	 *
+	 * @param stage the primary Stage for the game, used to display the game scenes
+	 */
 	public GameController(Stage stage) {
 		this.stage = stage;
 	}

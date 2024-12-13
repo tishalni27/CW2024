@@ -8,14 +8,37 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
 import java.io.*;
 import java.util.*;
+
+/**
+ * The Scoreboard class manages the display and storage of the top 3 scores for the game.
+ * It loads scores from a file, saves updated scores, and handles the visual display of the scoreboard.
+ */
 public class Scoreboard {
+
+    /** List to store the top scores of the game. */
     private List<Integer> topScores;
+
+    /** Text element for displaying the scoreboard on the screen. */
     private final Text scoreboardText;
+
+    /** ImageView element for displaying the background image of the scoreboard. */
     private final ImageView backgroundImage;
+
+    /** Rectangle for the black background behind the scoreboard. */
     private final Rectangle blackBackground;
-    private final String filename = "src/main/resources/scores.txt"; // File where scores are saved
+
+    /** Path to the file where scores are saved. */
+    private final String filename = "src/main/resources/scores.txt";
+
+    /**
+     * Constructor to initialize the Scoreboard with its position and load scores from file.
+     *
+     * @param xPosition The X position for placing the scoreboard (not currently used but could be for further customization).
+     * @param yPosition The Y position for placing the scoreboard.
+     */
     public Scoreboard(double xPosition, double yPosition) {
         // Load scores from the file
         topScores = loadScores();
@@ -29,9 +52,10 @@ public class Scoreboard {
         // Create and set up the black background
         blackBackground = new Rectangle(1100, 900); // Dimensions of the background
         blackBackground.setFill(Color.BLACK); // Set color to black
-        blackBackground.setLayoutX(200);//200
+        blackBackground.setLayoutX(200);
         blackBackground.setLayoutY(0);
         blackBackground.setVisible(true);
+
         // Create and set up the background image
         backgroundImage = new ImageView(new Image(getClass().getResource("/com/example/demo/images/scoreBoardScreen.png").toExternalForm()));
         backgroundImage.setFitWidth(900);
@@ -40,6 +64,12 @@ public class Scoreboard {
         backgroundImage.setLayoutY(yPosition);
         backgroundImage.setVisible(true);
     }
+
+    /**
+     * Loads the scores from the file specified by {@code filename}.
+     *
+     * @return A list of integers representing the top scores.
+     */
     private List<Integer> loadScores() {
         List<Integer> scores = new ArrayList<>();
         try {
@@ -62,6 +92,10 @@ public class Scoreboard {
         }
         return scores.isEmpty() ? new ArrayList<>(Arrays.asList(0, 0, 0)) : scores;
     }
+
+    /**
+     * Saves the current top scores to the file specified by {@code filename}.
+     */
     private void saveScores() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
@@ -75,7 +109,11 @@ public class Scoreboard {
         }
     }
 
-    // Method to add a new score and update the top 3 scores
+    /**
+     * Adds a new score, updates the top 3 scores, and saves them to the file.
+     *
+     * @param newScore The new score to be added to the scoreboard.
+     */
     public void addScore(int newScore) {
         topScores.add(newScore);
         Collections.sort(topScores, Collections.reverseOrder()); // Sort in descending order
@@ -86,12 +124,18 @@ public class Scoreboard {
         updateScoreboardText(); // Update the displayed scoreboard
     }
 
-    // Method to generate the display text for the scoreboard
+    /**
+     * Updates the scoreboard text to display the current top 3 scores.
+     */
     private void updateScoreboardText() {
         scoreboardText.setText(getScoreboardText());
     }
 
-    // Method to format the top 3 scores as a string for display
+    /**
+     * Formats the top 3 scores as a string for display on the scoreboard.
+     *
+     * @return A string representing the formatted top 3 scores.
+     */
     private String getScoreboardText() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < topScores.size(); i++) {
@@ -99,19 +143,31 @@ public class Scoreboard {
         }
         return sb.toString();
     }
+
+    /**
+     * Displays the scoreboard on the specified root group.
+     *
+     * @param root The root group to which the scoreboard elements are added.
+     */
     public void displayScoreboard(Group root) {
-        root.getChildren().add(blackBackground); // Add the background image
+        root.getChildren().add(blackBackground); // Add the background rectangle
         root.getChildren().add(backgroundImage); // Add the background image
         root.getChildren().add(scoreboardText);  // Add the scoreboard text
         bringToFront(); // Ensure the text is on top
     }
 
+    /**
+     * Shows the scoreboard by making the black background and background image visible.
+     */
     public void showScoreboard() {
         blackBackground.setVisible(true);
         backgroundImage.setVisible(true);
     }
+
+    /**
+     * Brings the scoreboard text to the front of the display.
+     */
     public void bringToFront() {
         scoreboardText.toFront();
     }
-
 }

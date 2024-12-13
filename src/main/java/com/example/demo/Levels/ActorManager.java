@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Manages the actors in the game, including friendly units (such as the user's plane), enemy units, and projectiles.
+ * <p>
+ * This class handles spawning, updating, and removing actors in the game. It also manages collisions between various
+ * types of actors (e.g., user projectiles and enemy units), and generates appropriate effects such as explosions.
+ * </p>
+ */
 public class ActorManager {
 
     private final Group root;
@@ -24,6 +31,13 @@ public class ActorManager {
     private final List<ActiveActorDestructible> enemyProjectiles;
     private final ImageView background;
 
+    /**
+     * Constructs an {@link ActorManager} to manage the actors in the game.
+     *
+     * @param root The {@link Group} where the game actors will be added.
+     * @param user The user's plane (friendly unit).
+     * @param background The background image of the game.
+     */
     public ActorManager(Group root, UserPlane user, ImageView background) {
         this.root = root;
         this.user = user;
@@ -36,7 +50,9 @@ public class ActorManager {
         friendlyUnits.add(user); // Add the user plane to friendly units
     }
 
-    // Spawning a user projectile
+    /**
+     * Fires a projectile from the user plane and adds it to the game.
+     */
     public void fireUserProjectile() {
         ActiveActorDestructible projectile = user.fireProjectile();
         if (projectile != null) {
@@ -45,11 +61,18 @@ public class ActorManager {
         }
     }
 
-    // Spawning enemy projectiles
+    /**
+     * Generates and spawns projectiles from enemy units.
+     */
     public void generateEnemyFire() {
         enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
     }
 
+    /**
+     * Spawns a new enemy projectile and adds it to the game.
+     *
+     * @param projectile The projectile to be added to the game.
+     */
     public void spawnEnemyProjectile(ActiveActorDestructible projectile) {
         if (projectile != null) {
             root.getChildren().add(projectile);
@@ -57,7 +80,9 @@ public class ActorManager {
         }
     }
 
-    // Updates the actors (planes and projectiles)
+    /**
+     * Updates the positions and states of all actors (planes and projectiles).
+     */
     public void updateActors() {
         friendlyUnits.forEach(plane -> plane.updateActor());
         enemyUnits.forEach(enemy -> enemy.updateActor());
@@ -65,7 +90,9 @@ public class ActorManager {
         enemyProjectiles.forEach(projectile -> projectile.updateActor());
     }
 
-    // Removes all destroyed actors from the scene
+    /**
+     * Removes all destroyed actors from the game scene.
+     */
     public void removeDestroyedActors() {
         removeDestroyedActors(friendlyUnits);
         removeDestroyedActors(enemyUnits);
@@ -73,6 +100,11 @@ public class ActorManager {
         removeDestroyedActors(enemyProjectiles);
     }
 
+    /**
+     * Removes destroyed actors from the provided list and triggers explosion effects if necessary.
+     *
+     * @param actors The list of actors to check for destruction.
+     */
     private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
         List<ActiveActorDestructible> destroyedActors = actors.stream().filter(ActiveActorDestructible::isDestroyed)
                 .collect(Collectors.toList());
@@ -99,7 +131,12 @@ public class ActorManager {
         }
     }
 
-    // Collision detection between two groups of actors
+    /**
+     * Detects and handles collisions between two groups of actors.
+     *
+     * @param actors1 The first list of actors to check for collisions.
+     * @param actors2 The second list of actors to check for collisions.
+     */
     public void handleCollisions(List<ActiveActorDestructible> actors1, List<ActiveActorDestructible> actors2) {
         for (ActiveActorDestructible actor : actors2) {
             for (ActiveActorDestructible otherActor : actors1) {
@@ -111,48 +148,78 @@ public class ActorManager {
         }
     }
 
-    // Handle collisions specifically for friendly units and enemies
+    /**
+     * Handles collisions between friendly units (e.g., user plane) and enemy units.
+     */
     public void handlePlaneCollisions() {
         handleCollisions(friendlyUnits, enemyUnits);
     }
 
-    // Handle collisions between user projectiles and enemies
+    /**
+     * Handles collisions between user projectiles and enemy units.
+     */
     public void handleUserProjectileCollisions() {
         handleCollisions(userProjectiles, enemyUnits);
     }
 
-    // Handle collisions between enemy projectiles and friendly units
+    /**
+     * Handles collisions between enemy projectiles and friendly units.
+     */
     public void handleEnemyProjectileCollisions() {
         handleCollisions(enemyProjectiles, friendlyUnits);
     }
 
-    // Add enemy units to the game
+    /**
+     * Adds a new enemy unit to the game.
+     *
+     * @param enemy The enemy unit to be added to the game.
+     */
     public void addEnemyUnit(ActiveActorDestructible enemy) {
         enemyUnits.add(enemy);
         root.getChildren().add(enemy);
     }
 
-    // Check if the user plane is destroyed
+    /**
+     * Checks if the user plane has been destroyed.
+     *
+     * @return {@code true} if the user plane is destroyed, {@code false} otherwise.
+     */
     public boolean isUserDestroyed() {
         return user.isDestroyed();
     }
 
-    // Get the list of enemy units
+    /**
+     * Gets the list of enemy units currently in the game.
+     *
+     * @return The list of enemy units.
+     */
     public List<ActiveActorDestructible> getEnemyUnits() {
         return enemyUnits;
     }
 
-    // Get the list of friendly units (includes the user plane)
+    /**
+     * Gets the list of friendly units, including the user plane.
+     *
+     * @return The list of friendly units.
+     */
     public List<ActiveActorDestructible> getFriendlyUnits() {
         return friendlyUnits;
     }
 
-    // Get the list of user projectiles
+    /**
+     * Gets the list of user projectiles currently in the game.
+     *
+     * @return The list of user projectiles.
+     */
     public List<ActiveActorDestructible> getUserProjectiles() {
         return userProjectiles;
     }
 
-    // Get the list of enemy projectiles
+    /**
+     * Gets the list of enemy projectiles currently in the game.
+     *
+     * @return The list of enemy projectiles.
+     */
     public List<ActiveActorDestructible> getEnemyProjectiles() {
         return enemyProjectiles;
     }

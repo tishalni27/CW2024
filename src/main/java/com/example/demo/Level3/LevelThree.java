@@ -11,17 +11,34 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
 import static com.example.demo.Level3.LevelThreeConfig.*;
 
+/**
+ * Represents the third level of the game. This class extends {@link LevelParent} and introduces
+ * a unique mechanic of shield usage for the player's plane and spawning enemies.
+ */
 public class LevelThree extends LevelParent {
 
     private long lastShieldUsedTime = 0; // Time when the shield was last activated
     private Text shieldMessage;  // Text element to show the shield activation message
 
+    /**
+     * Constructs a new LevelThree.
+     * Initializes the level with a background image, screen height and width, and the controller.
+     *
+     * @param screenHeight The height of the game screen.
+     * @param screenWidth The width of the game screen.
+     * @param controller The game controller.
+     */
     public LevelThree(double screenHeight, double screenWidth, GameController controller) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH, controller);
     }
 
+    /**
+     * Checks if the game is over by determining whether the user has been destroyed
+     * or has reached the kill target to win the level.
+     */
     @Override
     protected void checkIfGameOver() {
         if (userIsDestroyed()) {
@@ -31,6 +48,10 @@ public class LevelThree extends LevelParent {
         }
     }
 
+    /**
+     * Initializes the friendly units, adds the user plane to the scene,
+     * and sets up the shield and kill count display.
+     */
     @Override
     protected void initializeFriendlyUnits() {
         // Enable the shield for the UserPlane
@@ -44,7 +65,6 @@ public class LevelThree extends LevelParent {
         getRoot().getChildren().add(getUser());
 
         // Add kill count text
-
         killCountText.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;");
         killCountText.setLayoutX(650); // Adjusted X position
         killCountText.setLayoutY(30);  // Adjusted Y position
@@ -65,6 +85,11 @@ public class LevelThree extends LevelParent {
         getRoot().setOnKeyPressed(event -> handleKeyPress(event));
     }
 
+    /**
+     * Handles key press events, specifically checking for the Enter key to activate the shield.
+     *
+     * @param event The key event.
+     */
     private void handleKeyPress(KeyEvent event) {
         // Check if Enter key is pressed to activate shield
         if (event.getCode() == KeyCode.ENTER) {
@@ -92,7 +117,11 @@ public class LevelThree extends LevelParent {
         }
     }
 
-    // Method to deactivate the shield after 5 seconds
+    /**
+     * Deactivates the shield after 7 seconds and starts the cooldown period before the shield can be used again.
+     *
+     * @param userPlane The user's plane that owns the shield.
+     */
     private void deactivateShieldAfterTimeout(UserPlane userPlane) {
         // Create a timeline to wait 7 seconds before deactivating the shield
         Timeline timeline = new Timeline(
@@ -100,7 +129,7 @@ public class LevelThree extends LevelParent {
                     userPlane.setShieldAllowed(false); // Deactivate shield
                     System.out.println("Shield deactivated after 7 seconds");
 
-                    // After deactivating the shield, wait for 7 seconds before showing the message again
+                    // After deactivating the shield, wait for cooldown before showing the message again
                     waitForShieldCooldown();
                 })
         );
@@ -108,7 +137,9 @@ public class LevelThree extends LevelParent {
         timeline.play(); // Start the timeline
     }
 
-    // Method to handle the cooldown period and show the "Use shield" message again
+    /**
+     * Handles the cooldown period and shows the "Use shield" message again after 5 seconds.
+     */
     private void waitForShieldCooldown() {
         // Create a timeline to wait 5 seconds before showing the "Use shield" message again
         Timeline cooldownTimeline = new Timeline(
@@ -122,13 +153,17 @@ public class LevelThree extends LevelParent {
         cooldownTimeline.play(); // Start the cooldown timeline
     }
 
+    /**
+     * Spawns enemy units at random positions on the screen based on a defined spawn probability.
+     * The method ensures that a certain number of enemies are present on the screen at all times.
+     */
     @Override
     protected void spawnEnemyUnits() {
         int currentNumberOfEnemies = getCurrentNumberOfEnemies();
         for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
             if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
 
-                //custom bounds for bigger enemies
+                // Custom bounds for spawning enemies
                 double enemyY = ENEMY_SPAWN_MIN_Y + Math.random() * (ENEMY_SPAWN_MAX_Y - ENEMY_SPAWN_MIN_Y);
                 ActiveActorDestructible newEnemy = new EnemyLevelThree(getScreenWidth(), enemyY);
                 addEnemyUnit(newEnemy);
@@ -136,11 +171,21 @@ public class LevelThree extends LevelParent {
         }
     }
 
+    /**
+     * Instantiates the level view for LevelThree.
+     *
+     * @return A new instance of {@link LevelView} for LevelThree.
+     */
     @Override
     protected LevelView instantiateLevelView() {
         return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);
     }
 
+    /**
+     * Checks whether the user has reached the kill target to advance to the next level.
+     *
+     * @return true if the user has reached the kill target, otherwise false.
+     */
     private boolean userHasReachedKillTarget() {
         return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;
     }
