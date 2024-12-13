@@ -75,7 +75,7 @@ public class UserPlane extends FighterPlane {
 	 *
 	 * @param event the key event triggered by the player
 	 */
-	private void handleKeyPress(KeyEvent event) {
+	void handleKeyPress(KeyEvent event) {
 		// Check if Enter key is pressed
 		if (event.getCode() == KeyCode.ENTER) {
 			// Toggle the shield's state

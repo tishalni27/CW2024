@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.scene.Parent;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,7 +23,7 @@ public class GameController implements Observer {
 
 	private final Stage stage;
 	private LevelParent currentLevel;
-	private Parent root;
+	//private Parent root;
 	private String gameLevel;
 	/**
 	 * Constructs a new GameController for managing and controlling the game level.

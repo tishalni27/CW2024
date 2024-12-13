@@ -47,7 +47,7 @@ public abstract class ActiveActor extends ImageView {
 	 *
 	 * @param horizontalMove The distance to move the actor horizontally.
 	 */
-	protected void moveHorizontally(double horizontalMove) {
+	public void moveHorizontally(double horizontalMove) {
 		this.setTranslateX(getTranslateX() + horizontalMove);
 	}
 
@@ -57,7 +57,7 @@ public abstract class ActiveActor extends ImageView {
 	 *
 	 * @param verticalMove The distance to move the actor vertically.
 	 */
-	protected void moveVertically(double verticalMove) {
+	public void moveVertically(double verticalMove) {
 		this.setTranslateY(getTranslateY() + verticalMove);
 	}
 }
