@@ -45,17 +45,6 @@ public class LevelView {
 		}
 	}
 
-	public void reset() {
-		// Remove all children from the root related to this LevelView
-		root.getChildren().remove(heartDisplay.getContainer());
-		root.getChildren().remove(winImage);
-		root.getChildren().remove(gameOverImage);
 
-		// Reset the heart display to its initial state
-		heartDisplay.reset();
-
-		// Re-add the heart display to the root
-		showHeartDisplay();
-	}
 
 }

@@ -94,13 +94,13 @@ public class LevelThree extends LevelParent {
 
     // Method to deactivate the shield after 5 seconds
     private void deactivateShieldAfterTimeout(UserPlane userPlane) {
-        // Create a timeline to wait 5 seconds before deactivating the shield
+        // Create a timeline to wait 7 seconds before deactivating the shield
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(7), event -> {
                     userPlane.setShieldAllowed(false); // Deactivate shield
-                    System.out.println("Shield deactivated after 5 seconds");
+                    System.out.println("Shield deactivated after 7 seconds");
 
-                    // After deactivating the shield, wait for 10 seconds before showing the message again
+                    // After deactivating the shield, wait for 7 seconds before showing the message again
                     waitForShieldCooldown();
                 })
         );
@@ -110,7 +110,7 @@ public class LevelThree extends LevelParent {
 
     // Method to handle the cooldown period and show the "Use shield" message again
     private void waitForShieldCooldown() {
-        // Create a timeline to wait 10 seconds before showing the "Use shield" message again
+        // Create a timeline to wait 5 seconds before showing the "Use shield" message again
         Timeline cooldownTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(5), event -> {
                     // After the cooldown period, show the "Use shield" message again
